@@ -1,0 +1,1621 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>2026 世界杯观赛指南</title>
+  <style>
+    :root {
+      --bg: #eef2f4;
+      --page: #f7f9fb;
+      --text: #17202a;
+      --muted: #657383;
+      --line: #dce3ea;
+      --brand: #0c7b5f;
+      --brand-2: #d62f45;
+      --accent: #f2b84b;
+      --card: #ffffff;
+      --soft: #e9f6f1;
+      --header-height: 48px;
+      --nav-height: 56px;
+      --content-padding: 16px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --touch-target: 44px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      background: var(--page);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Fixed top header ── */
+    .app-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      height: var(--header-height);
+      padding: var(--safe-top) var(--content-padding) 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .app-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--brand);
+    }
+    .app-header time {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Scrollable content area ── */
+    .app-content {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-top: calc(var(--header-height) + var(--safe-top));
+      padding-bottom: calc(var(--nav-height) + var(--safe-bottom));
+    }
+
+    /* ── Fixed bottom nav ── */
+    .app-nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      background: var(--card);
+      border-top: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding-bottom: var(--safe-bottom);
+    }
+
+    /* ── Views ── */
+    .view {
+      display: none;
+      padding: 0 var(--content-padding) 24px;
+    }
+    .view.active { display: block; }
+
+    /* ── Topbar ── */
+    .topbar { padding: 12px 0 14px; }
+    .eyebrow {
+      margin: 0 0 6px;
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 24px; line-height: 1.15; letter-spacing: 0; }
+    h2 { margin: 20px 0 10px; font-size: 17px; }
+    h3 { font-size: 15px; line-height: 1.35; }
+    .sub { margin-top: 6px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+    /* ── Cards ── */
+    .card {
+      margin: 10px 0;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--card);
+    }
+    .match-head {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      align-items: center;
+      text-align: center;
+    }
+    .team { font-weight: 800; font-size: 15px; }
+    .vs, .score { min-width: 54px; color: var(--brand-2); font-weight: 900; font-size: 18px; }
+    .meta { margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .tag { padding: 4px 8px; background: var(--soft); color: var(--brand); border-radius: 999px; font-size: 11px; font-weight: 700; }
+    .tag.hot { background: #fff2d9; color: #9a5f00; }
+
+    /* ── Hero ── */
+    .hero {
+      margin-top: 10px;
+      padding: 16px;
+      color: #fff;
+      background: linear-gradient(rgba(12,123,95,0.9), rgba(12,123,95,0.9)),
+        url("https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=900&q=80");
+      background-size: cover;
+      background-position: center;
+      border-radius: 8px;
+    }
+    .hero .sub, .hero .meta { color: rgba(255,255,255,0.86); }
+
+    /* ── Buttons ── */
+    button, .button {
+      border: 0;
+      min-height: var(--touch-target);
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: var(--brand);
+      color: #fff;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    button.secondary, .button.secondary { background: #e8edf2; color: #233140; }
+    button.ghost { min-height: 32px; background: transparent; color: var(--brand); padding: 0; text-align: left; }
+    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+
+    /* ── Back button ── */
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin: 8px 0 12px;
+      color: var(--brand);
+      background: transparent;
+      min-height: var(--touch-target);
+      padding: 0;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 700;
+      border: 0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── Section title ── */
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title small { color: var(--muted); font-size: 12px; }
+
+    /* ── Tabs in bottom nav ── */
+    .tab {
+      min-height: var(--nav-height);
+      border-radius: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 6px 4px;
+      border: 0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tab.active { color: var(--brand); background: #edf7f3; }
+
+    /* ── Filter chips ── */
+    .filters {
+      display: flex;
+      gap: 7px;
+      margin: 8px 0 14px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+    .chip {
+      min-height: 36px;
+      padding: 8px 12px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+      flex-shrink: 0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .chip.active { color: #fff; border-color: var(--brand); background: var(--brand); }
+
+    /* ── Schedule note ── */
+    .schedule-note { margin: 8px 0 14px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+    /* ── Bracket ── */
+    .bracket-scroll {
+      overflow-x: auto;
+      padding: 4px 2px 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .bracket-grid {
+      min-width: 930px;
+      min-height: 1120px;
+      display: grid;
+      grid-template-columns: repeat(5, 158px);
+      gap: 34px;
+    }
+    .bracket-stage { min-width: 0; position: relative; display: flex; flex-direction: column; }
+    .bracket-stage:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 52px; right: -18px; bottom: 8px;
+      border-right: 1px solid #aeb9c4;
+    }
+    .bracket-stage h3 {
+      min-height: 42px;
+      display: flex; align-items: center;
+      color: var(--muted); font-size: 12px; text-transform: uppercase;
+    }
+    .bracket-matches { flex: 1; display: flex; flex-direction: column; justify-content: space-around; gap: 8px; }
+    .bracket-match {
+      min-height: 58px; position: relative;
+      padding: 8px; border: 1px solid var(--line); border-radius: 6px; background: #fff; cursor: pointer;
+    }
+    .bracket-stage:not(:last-child) .bracket-match::after {
+      content: "";
+      position: absolute; right: -34px; top: 50%;
+      width: 34px; border-top: 1px solid #aeb9c4;
+    }
+    .bracket-stage:not(:first-child) .bracket-match::before {
+      content: "";
+      position: absolute; left: -17px; top: 50%;
+      width: 17px; border-top: 1px solid #aeb9c4;
+    }
+    .bracket-team { display: flex; justify-content: space-between; gap: 6px; font-size: 11px; font-weight: 800; }
+    .bracket-team + .bracket-team { margin-top: 5px; }
+
+    /* ── Standings ── */
+    .standings-group { margin-bottom: 20px; }
+    .standings-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+    .standings-table { width: 100%; min-width: 340px; border-collapse: collapse; font-size: 11px; }
+    .standings-table th, .standings-table td { padding: 9px 6px; border-bottom: 1px solid var(--line); text-align: center; white-space: nowrap; }
+    .standings-table tr:last-child td { border-bottom: 0; }
+    .standings-table th:nth-child(2), .standings-table td:nth-child(2) { text-align: left; }
+    .standings-rank { width: 20px; height: 20px; display: inline-grid; place-items: center; border-radius: 50%; background: #eef2f4; font-weight: 900; }
+    .standings-rank.qualifying { color: #fff; background: var(--brand); }
+
+    /* ── Venue schedule ── */
+    .venue-schedule { margin-bottom: 18px; }
+
+    /* ── Stats ── */
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stat-card { min-height: 92px; display: flex; flex-direction: column; justify-content: space-between; }
+    .stat-value { font-size: 24px; font-weight: 900; color: var(--brand); }
+    .leader-grid { display: grid; gap: 10px; }
+    .leader-card { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; border-left: 4px solid var(--accent); }
+    .leader-score { font-size: 22px; font-weight: 900; color: var(--brand-2); }
+    .ranking-table { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; }
+    .ranking-row {
+      display: grid;
+      grid-template-columns: 30px minmax(90px, 1fr) 36px 36px 36px;
+      gap: 5px; align-items: center;
+      min-height: 48px; padding: 7px 8px;
+      border-bottom: 1px solid var(--line);
+      font-size: 11px; text-align: center;
+    }
+    .ranking-row:last-child { border-bottom: 0; }
+    .ranking-player { min-width: 0; text-align: left; }
+    .ranking-player strong, .ranking-player span { display: block; overflow-wrap: anywhere; }
+    .ranking-player span { margin-top: 2px; color: var(--muted); }
+    .ranking-head { min-height: 34px; color: var(--muted); background: #f2f5f7; font-weight: 800; }
+
+    /* ── Row / badge ── */
+    .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .row:last-child { border-bottom: 0; }
+    .row-main { min-width: 0; }
+    .row-main strong { display: block; font-size: 14px; }
+    .row-main span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+    .badge { flex: 0 0 auto; padding: 5px 8px; border-radius: 999px; color: var(--brand); background: var(--soft); font-size: 11px; font-weight: 900; }
+
+    /* ── Search ── */
+    .search {
+      width: 100%; height: 40px;
+      border: 1px solid var(--line); border-radius: 8px;
+      padding: 0 12px;
+      background: #fff; color: var(--muted);
+      font-size: 13px;
+      display: flex; align-items: center;
+    }
+
+    /* ── Team grid ── */
+    .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .team-card { min-height: 112px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
+    .flag { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: #eef2f4; font-weight: 900; color: var(--brand); overflow: hidden; }
+    .flag img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .flag-fallback[hidden] { display: none; }
+    .team-title-row { display: flex; align-items: center; gap: 12px; }
+
+    /* ── Player grid ── */
+    .player-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .player-card { margin: 0; padding: 0; overflow: hidden; }
+    .player-photo { width: 100%; aspect-ratio: 1/1; display: block; object-fit: cover; object-position: top; background: #e8edf2; }
+    .player-photo-placeholder { display: grid; place-items: center; color: var(--brand); font-size: 22px; font-weight: 900; }
+    .player-info { min-height: 76px; padding: 10px; }
+    .player-info h3 { overflow-wrap: anywhere; }
+
+    /* ── Detail cover ── */
+    .detail-cover {
+      height: 150px;
+      margin: 0 calc(-1 * var(--content-padding)) 16px;
+      background: linear-gradient(rgba(12,123,95,0.82), rgba(12,123,95,0.82)),
+        url("https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=900&q=80");
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      padding: 28px 18px;
+      display: flex; flex-direction: column; justify-content: end;
+    }
+
+    /* ── Venue ── */
+    .venue-img {
+      height: 116px; border-radius: 8px;
+      background: linear-gradient(rgba(0,0,0,0.08), rgba(0,0,0,0.08)),
+        url("https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=900&q=80");
+      background-size: cover; background-position: center;
+      margin-bottom: 12px;
+    }
+    .official-source { display: inline-block; margin-top: 10px; color: var(--brand); font-size: 12px; font-weight: 800; text-decoration: none; }
+
+    /* ── Social ── */
+    .social-entry { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; margin: 12px 0; padding: 14px; border-left: 4px solid var(--accent); background: #fff; }
+    .social-entry button { min-width: 82px; }
+    .social-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 8px 0 14px; }
+    .social-card-head { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+    .avatar { width: 34px; height: 34px; flex: 0 0 34px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: var(--brand); font-size: 12px; font-weight: 900; }
+    .social-user { flex: 1; }
+    .social-user span, .form-hint { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .social-count { color: var(--brand); font-size: 12px; font-weight: 900; white-space: nowrap; }
+
+    /* ── Heat map ── */
+    .heat-map { min-height: 270px; position: relative; overflow: hidden; margin: 12px 0; border: 1px solid var(--line); border-radius: 8px; background: #e7ecea; }
+    .map-road { position: absolute; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.9); transform-origin: left center; }
+    .heat-spot {
+      position: absolute; width: 72px; height: 72px;
+      display: grid; place-items: center;
+      border: 10px solid rgba(12,123,95,0.22); border-radius: 50%;
+      color: #fff; background: rgba(12,123,95,0.82);
+      font-size: 11px; font-weight: 900; text-align: center;
+    }
+    .map-center {
+      position: absolute; left: 50%; top: 50%;
+      width: 12px; height: 12px;
+      border: 3px solid #fff; border-radius: 50%;
+      background: var(--brand-2);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 0 4px rgba(214,47,69,0.18);
+    }
+
+    /* ── PK ── */
+    .pk-participants { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; }
+    .pk-person { min-width: 56px; text-align: center; font-size: 10px; color: var(--muted); }
+    .pk-person .avatar { margin: 0 auto 5px; }
+
+    /* ── Prediction ── */
+    .prediction-entry { margin: 4px 0 14px; padding: 18px; border-radius: 8px; color: #fff; background: #143d32; }
+    .prediction-entry .eyebrow, .prediction-entry .sub { color: rgba(255,255,255,0.82); }
+    .prediction-entry button { width: 100%; margin-top: 14px; color: #17202a; background: var(--accent); font-size: 15px; }
+    .prediction-entry .prediction-link { min-height: 30px; margin-top: 6px; padding: 4px; color: rgba(255,255,255,0.86); background: transparent; font-size: 12px; }
+
+    .prediction-poster { margin: 12px 0; padding: 18px; border-radius: 8px; color: #fff; background: #143d32; text-align: center; }
+    .prediction-poster .eyebrow, .prediction-poster .sub { color: rgba(255,255,255,0.8); }
+    .prediction-poster strong { display: block; margin: 10px 0 4px; color: var(--accent); font-size: 30px; }
+
+    .champion-poster { min-height: 470px; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; border: 2px solid var(--accent); text-align: left; }
+    .poster-brand { display: flex; justify-content: space-between; gap: 10px; color: rgba(255,255,255,0.78); font-size: 11px; font-weight: 800; }
+    .poster-avatar { width: 52px; height: 52px; display: grid; place-items: center; margin: 18px 0 10px; border: 2px solid var(--accent); border-radius: 50%; color: #143d32; background: var(--accent); font-size: 20px; font-weight: 900; }
+    .poster-title { max-width: 290px; margin: 0; font-size: 23px; line-height: 1.35; }
+    .poster-match { margin-top: 8px; color: rgba(255,255,255,0.76); font-size: 12px; }
+    .poster-hits { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 18px 0; }
+    .poster-hit { min-height: 54px; padding: 9px; border: 1px solid rgba(255,255,255,0.22); border-radius: 6px; background: rgba(255,255,255,0.08); font-size: 11px; line-height: 1.45; }
+    .poster-hit b { display: block; color: var(--accent); font-size: 10px; }
+    .poster-bottom { display: grid; grid-template-columns: 1fr 68px; gap: 14px; align-items: end; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.2); }
+    .poster-score { color: var(--accent); font-size: 26px; font-weight: 900; }
+    .poster-code { width: 68px; height: 68px; display: grid; place-items: center; border-radius: 4px; color: #143d32; background: #fff; font-size: 10px; font-weight: 900; text-align: center; }
+
+    /* ── Points rule ── */
+    .points-rule { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; }
+    .points-rule div { padding: 10px 6px; border: 1px solid var(--line); border-radius: 6px; background: #fff; text-align: center; font-size: 11px; }
+    .points-rule strong { display: block; margin-bottom: 4px; color: var(--brand); font-size: 18px; }
+    .quick-replies { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+    .quick-replies button { min-height: 32px; padding: 6px 9px; background: #e8edf2; color: #233140; font-size: 12px; }
+
+    /* ── Rank table ── */
+    .rank-table { margin-top: 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+    .rank-line { display: grid; grid-template-columns: 28px 1fr auto; gap: 8px; align-items: center; min-height: 44px; padding: 8px 10px; border-bottom: 1px solid var(--line); font-size: 12px; }
+    .rank-line:last-child { border-bottom: 0; }
+    .rank-line.me { background: var(--soft); }
+    .rank-line strong:last-child { color: var(--brand); }
+
+    /* ── Form ── */
+    .form-group { margin: 14px 0; }
+    .form-group label { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 800; }
+    .form-control { width: 100%; min-height: 42px; padding: 10px; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--text); font: inherit; font-size: 13px; }
+    textarea.form-control { min-height: 78px; resize: vertical; }
+    .safety-note { margin: 12px 0; padding: 10px; border: 1px solid #f0d798; border-radius: 6px; color: #755514; background: #fff8e7; font-size: 11px; line-height: 1.5; }
+
+    /* ── Dialog ── */
+    .profile-dialog { width: min(340px, calc(100vw - 32px)); padding: 0; border: 0; border-radius: 8px; color: var(--text); background: var(--card); box-shadow: 0 24px 70px rgba(16,21,28,0.28); margin: auto; max-height: calc(100svh - var(--safe-top) - var(--safe-bottom) - 32px); }
+    .profile-dialog::backdrop { background: rgba(16,21,28,0.62); }
+    .profile-dialog form { padding: 20px; }
+    .profile-dialog h2 { margin-top: 0; }
+    .profile-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed; left: 50%; bottom: calc(var(--nav-height) + var(--safe-bottom) + 16px);
+      z-index: 20; max-width: calc(100vw - 32px);
+      padding: 10px 14px; border-radius: 8px;
+      color: #fff; background: #17202a; font-size: 13px;
+      transform: translateX(-50%);
+      box-shadow: 0 10px 28px rgba(16,21,28,0.24);
+    }
+    .toast[hidden] { display: none; }
+
+    /* ── Tablet responsive ── */
+    @media (min-width: 600px) {
+      .team-grid { grid-template-columns: repeat(3, 1fr); }
+      .player-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 768px) {
+      :root { --content-padding: 24px; --header-height: 52px; --nav-height: 60px; }
+      .app-content { max-width: 768px; margin: 0 auto; }
+      .app-nav { max-width: 768px; left: 50%; transform: translateX(-50%); }
+      .tab { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <h1 class="app-title">世界杯观赛指南</h1>
+    <time id="status-time">--:--</time>
+  </header>
+
+  <main class="app-content">
+
+    <section class="view active" id="home">
+      <header class="topbar">
+        <p class="eyebrow">2026 男足世界杯</p>
+        <h1 id="home-title">今日观赛</h1>
+        <p class="sub" id="home-date-summary">正在同步 FIFA 赛程。</p>
+      </header>
+      <div id="home-social"></div>
+      <div id="home-featured"></div>
+      <div id="home-nearby"></div>
+      <div id="home-upcoming"></div>
+      <div id="home-today-results"></div>
+    </section>
+
+    <section class="view" id="schedule">
+      <header class="topbar">
+        <p class="eyebrow">全部比赛</p>
+        <h1>完整赛程</h1>
+        <p class="sub">按日期、阶段、小组或球队快速找比赛。</p>
+      </header>
+      <div class="filters">
+        <button class="chip active" data-schedule-mode="date" onclick="setScheduleMode('date')">日期</button>
+        <button class="chip" data-schedule-mode="stage" onclick="setScheduleMode('stage')">阶段</button>
+        <button class="chip" data-schedule-mode="group" onclick="setScheduleMode('group')">小组</button>
+        <button class="chip" data-schedule-mode="venue" onclick="setScheduleMode('venue')">场馆</button>
+      </div>
+      <div id="schedule-list"></div>
+    </section>
+
+    <section class="view" id="results">
+      <header class="topbar">
+        <p class="eyebrow">赛后回顾</p>
+        <h1>已完赛赛果</h1>
+        <p class="sub">FIFA 官方比分，按比赛日期整理。</p>
+      </header>
+      <div id="results-list"></div>
+    </section>
+
+    <section class="view" id="teams">
+      <header class="topbar">
+        <p class="eyebrow">参赛球队</p>
+        <h1>各队资料</h1>
+        <p class="sub">用小白也能懂的话，看懂每支队。</p>
+      </header>
+      <div class="search">搜索球队，例如：阿尔及利亚</div>
+      <div class="section-title">
+        <h2>FIFA 官方阵容</h2>
+        <small id="official-team-count">加载中</small>
+      </div>
+      <div class="team-grid" id="official-team-grid"></div>
+    </section>
+
+    <section class="view" id="stats">
+      <header class="topbar">
+        <p class="eyebrow">赛事数据</p>
+        <h1>数据统计</h1>
+        <p class="sub">FIFA Power Rankings 与本届赛事数据。</p>
+      </header>
+      <div id="stats-summary"></div>
+      <div id="power-leaders"></div>
+      <div id="power-ranking-list"></div>
+      <a class="official-source" href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/power-rankings" target="_blank" rel="noreferrer">查看 FIFA Power Rankings</a>
+    </section>
+
+    <section class="view" id="matchDetail">
+      <button class="back" onclick="showView(lastTab)">返回</button>
+      <div class="detail-cover">
+        <p class="eyebrow">比赛详情</p>
+        <h1 id="match-detail-title">比赛</h1>
+        <p class="meta" id="match-detail-meta">FIFA 官方比赛信息</p>
+      </div>
+      <article class="card">
+        <h3 id="match-detail-status">比赛状态</h3>
+        <p class="sub" id="match-detail-summary"></p>
+      </article>
+      <article class="card">
+        <h3>比赛场地</h3>
+        <p class="sub" id="match-detail-venue"></p>
+      </article>
+      <article class="card social-entry">
+        <div>
+          <h3>附近观赛热度</h3>
+          <p class="sub">看看附近有多少人也在关注这场比赛。</p>
+        </div>
+        <button onclick="openSocialHub(true)">查看地图</button>
+      </article>
+      <div class="actions">
+        <a class="button" id="match-source-link" href="#" target="_blank" rel="noreferrer">FIFA 比赛页</a>
+        <a class="button secondary" id="match-highlight-link" href="#" target="_blank" rel="noreferrer" hidden>搜索央视集锦</a>
+        <button class="secondary" id="match-team-button" onclick="showView('teams', true)">看球队</button>
+      </div>
+    </section>
+
+    <section class="view" id="teamDetail">
+      <button class="back" onclick="showView('teams')">返回球队</button>
+      <header class="topbar">
+        <p class="eyebrow">球队详情</p>
+        <div class="team-title-row">
+          <div class="flag" id="team-detail-flag"></div>
+          <h1 id="team-detail-name">球队</h1>
+        </div>
+        <p class="sub" id="team-detail-meta">FIFA 官方阵容</p>
+      </header>
+      <article class="card">
+        <h3>阵容概览</h3>
+        <p class="sub" id="team-squad-summary">正在读取球员数据。</p>
+        <a class="official-source" id="team-source-link" href="#" target="_blank" rel="noreferrer">查看 FIFA 官方页面</a>
+      </article>
+      <div id="team-player-sections"></div>
+    </section>
+
+    <section class="view" id="venueDetail">
+      <button class="back" onclick="backToVenueSchedule()">返回场馆</button>
+      <header class="topbar">
+        <p class="eyebrow">场馆详情</p>
+        <h1 id="venue-detail-name">比赛场馆</h1>
+        <p class="sub" id="venue-detail-meta">世界杯比赛场馆</p>
+      </header>
+      <div class="venue-img"></div>
+      <article class="card">
+        <h3>场馆特色</h3>
+        <p class="sub" id="venue-detail-summary">FIFA 2026 世界杯比赛场馆。</p>
+      </article>
+      <h2>承办比赛</h2>
+      <div id="venue-match-list"></div>
+    </section>
+
+    <section class="view" id="socialHub">
+      <button class="back" onclick="showView(lastTab)">返回</button>
+      <header class="topbar">
+        <p class="eyebrow">LBS·区域观赛热度</p>
+        <h1>附近有多少人在看球</h1>
+        <p class="sub">仅显示区域聚合人数，不展示用户头像、昵称或精确位置。</p>
+      </header>
+      <div id="social-match-context"></div>
+      <div class="filters" id="distance-filters">
+        <button class="chip" onclick="setSocialDistance(this, 1)">1 km</button>
+        <button class="chip active" onclick="setSocialDistance(this, 5)">5 km</button>
+        <button class="chip" onclick="setSocialDistance(this, 10)">10 km</button>
+        <button class="chip" onclick="setSocialDistance(this, 50)">50 km</button>
+        <button class="chip" onclick="setSocialDistance(this, 100)">100 km</button>
+      </div>
+      <div class="heat-map" aria-label="附近观赛热度地图">
+        <span class="map-road" style="width:420px;left:-30px;top:92px;transform:rotate(12deg)"></span>
+        <span class="map-road" style="width:360px;left:38px;top:205px;transform:rotate(-22deg)"></span>
+        <span class="map-road" style="width:300px;left:150px;top:24px;transform:rotate(68deg)"></span>
+        <span class="heat-spot" style="left:28px;top:34px">68人<br>南京西路</span>
+        <span class="heat-spot" style="right:24px;top:46px">42人<br>江宁路</span>
+        <span class="heat-spot" style="left:54px;bottom:24px">31人<br>恒隆广场</span>
+        <span class="heat-spot" style="right:48px;bottom:20px">53人<br>武定路</span>
+        <span class="map-center" title="我的大致位置"></span>
+      </div>
+      <div class="stats-grid"><article class="card stat-card"><span class="sub">正在看球</span><strong class="stat-value" id="nearby-viewers">194</strong></article><article class="card stat-card"><span class="sub">已参与预测</span><strong class="stat-value" id="nearby-predictors">128</strong></article></div>
+      <article class="card"><h3>附近球队支持率</h3><p class="sub">美国 46%｜澳大利亚 31%｜其他 23%</p></article>
+      <p class="safety-note">区域人数只在样本充足时展示，不可点击或追踪具体用户。</p>
+      <button id="map-pk-button" style="width:100%" onclick="showView('challengeCreate')">发起预测PK</button>
+    </section>
+
+    <section class="view" id="pkRoom">
+      <button class="back" onclick="showView('home', true)">返回首页</button>
+      <header class="topbar"><p class="eyebrow">多人预测PK</p><h1 id="pk-room-title">预测房</h1><p class="sub" id="pk-room-match">正在读取比赛</p></header>
+      <article class="card"><div class="section-title"><h3 id="pk-room-state">等待好友加入</h3><span class="tag hot" id="pk-room-count">1/20人</span></div><p class="sub" id="pk-room-reward">至少2人成局，参与人数越多，冠军荣誉分越高。</p><div class="pk-participants" id="pk-room-participants"></div></article>
+      <button style="width:100%" onclick="sharePkRoom(this)">邀请好友加入PK</button>
+      <article class="card"><h3>我的预测</h3><p class="sub" id="pk-prediction-summary">尚未提交</p></article>
+      <button class="secondary" id="pk-room-submit-button" style="width:100%" onclick="editRoomPrediction()" hidden>提交我的预测</button>
+      <div class="actions"><button onclick="showView('halftimeReport')">查看半场战报</button><button class="secondary" onclick="showView('pkResult')">查看终场演示</button></div>
+    </section>
+
+    <section class="view" id="halftimeReport">
+      <button class="back" onclick="showView('pkRoom')">返回PK房</button>
+      <header class="topbar"><p class="eyebrow">半场结算</p><h1>美国 1-0 澳大利亚</h1><p class="sub">上半场预测已结算，全场预测继续保密。</p></header>
+      <article class="card"><div class="section-title"><h3>我的半场战绩</h3><span class="tag hot">暂列第2</span></div><div class="points-rule"><div><strong>3/4</strong>命中</div><div><strong>40</strong>半场分</div><div><strong>10</strong>距榜首</div></div></article>
+      <div class="section-title"><h2>半场临时排名</h2><small>6人参与</small></div>
+      <div class="rank-table"><div class="rank-line"><strong>1</strong><span>小王·半场预言家</span><strong>50分</strong></div><div class="rank-line me"><strong>2</strong><span>我·命中3项</span><strong>40分</strong></div><div class="rank-line"><strong>3</strong><span>Leo</span><strong>35分</strong></div><div class="rank-line"><strong>4</strong><span>小鹿</span><strong>30分</strong></div><div class="rank-line"><strong>5</strong><span>阿峰</span><strong>20分</strong></div></div>
+      <article class="card"><h3>朋友间快捷互动</h3><div class="quick-replies"><button onclick="sendPkReply(this)">领先只是暂时的</button><button onclick="sendPkReply(this)">下半场我要反超</button><button onclick="sendPkReply(this)">你这比分真敢预测</button></div><p class="sub" id="pk-last-message">小王：全场结束再说。</p></article>
+      <div id="second-half-status"></div>
+      <button style="width:100%" onclick="showView('secondHalfPrediction')">参加下半场闪电预测·剩4:38</button>
+    </section>
+
+    <section class="view" id="secondHalfPrediction">
+      <button class="back" onclick="showView('halftimeReport')">返回半场战报</button>
+      <header class="topbar"><p class="eyebrow">5分钟加赛</p><h1>下半场闪电预测</h1><p class="sub">新加入的好友可参与下半场榜，但不进入原PK房冠军争夺。</p></header>
+      <div class="form-group"><label for="second-half-result">下半场胜平负·+10</label><select class="form-control" id="second-half-result"><option>美国胜</option><option>平局</option><option>澳大利亚胜</option></select></div>
+      <div class="form-group"><label for="second-half-next-goal">下一个进球队·+10</label><select class="form-control" id="second-half-next-goal"><option>美国</option><option>澳大利亚</option><option>无进球</option></select></div>
+      <div class="form-group"><label for="second-half-goals">下半场总进球·+10</label><select class="form-control" id="second-half-goals"><option>0-1球</option><option>2-3球</option><option>4球及以上</option></select></div>
+      <div class="form-group"><label for="second-half-red">下半场是否有红牌·+10</label><select class="form-control" id="second-half-red"><option>没有</option><option>有</option></select></div>
+      <button style="width:100%" onclick="submitSecondHalf()">提交闪电预测</button>
+    </section>
+
+    <section class="view" id="pkResult">
+      <button class="back" onclick="showView('pkRoom')">返回PK房</button>
+      <header class="topbar"><p class="eyebrow">终场结算</p><h1>预测PK战报</h1><p class="sub">美国 2-1 澳大利亚｜6人完成预测</p></header>
+      <div class="prediction-poster champion-poster">
+        <div>
+          <div class="poster-brand"><span>世界杯观赛指南</span><span>2026·预测PK</span></div>
+          <div class="poster-avatar">峰</div>
+          <h2 class="poster-title">太厉害了，阿峰又预测对了4项</h2>
+          <p class="poster-match">美国 2-1 澳大利亚｜6人PK房</p>
+          <div class="poster-hits">
+            <div class="poster-hit"><b>预测命中 A</b>上半场美国领先</div>
+            <div class="poster-hit"><b>预测命中 B</b>上半场比分 1-0</div>
+            <div class="poster-hit"><b>预测命中 C</b>全场美国获胜</div>
+            <div class="poster-hit"><b>预测命中 D</b>全场比分 2-1</div>
+          </div>
+        </div>
+        <div class="poster-bottom">
+          <div><span class="tag hot">PK房冠军</span><div class="poster-score">125 分</div><p class="sub">击败5位好友｜超越92%预测者</p><p class="sub">下一场，敢来和我预测PK吗？</p></div>
+          <div class="poster-code">小程序码<br>来PK</div>
+        </div>
+      </div>
+      <article class="card"><h3>每个人都有可分享战报</h3><p class="sub">未夺冠的用户也会生成"预测对了几项"的个人海报，冠军版额外展示击败人数和PK荣誉分。</p></article>
+      <div class="rank-table"><div class="rank-line me"><strong>1</strong><span>阿峰·我</span><strong>125</strong></div><div class="rank-line"><strong>2</strong><span>小王</span><strong>108</strong></div><div class="rank-line"><strong>3</strong><span>Leo</span><strong>95</strong></div><div class="rank-line"><strong>4</strong><span>小鹿</span><strong>80</strong></div></div>
+      <div class="actions"><button onclick="sharePrototype(this)">分享我的冠军海报</button><button class="secondary" onclick="showView('challengeCreate')">发起下一场PK</button></div>
+    </section>
+
+    <section class="view" id="challengeCreate">
+      <button class="back" onclick="showView('home', true)">返回首页</button>
+      <header class="topbar"><p class="eyebrow">赛前立预测，赛中看排名</p><h1>发起预测PK</h1><p class="sub">至少2人成局。上半场即时结算，终场决出PK冠军。</p></header>
+      <div class="form-group"><label for="challenge-match">选择比赛</label><select class="form-control" id="challenge-match" onchange="syncPredictionMatch()"></select></div>
+      <div class="section-title"><h2>上半场预测</h2><small>最高50分</small></div>
+      <div class="form-group"><label for="half-result">上半场胜平负·+10</label><select class="form-control" id="half-result"><option>美国胜</option><option>平局</option><option>澳大利亚胜</option></select></div>
+      <div class="form-group"><label for="half-score">上半场精确比分·+20</label><select class="form-control" id="half-score"><option>1-0</option><option>0-0</option><option>2-0</option><option>1-1</option></select></div>
+      <div class="form-group"><label for="half-first-goal">上半场先进球队·+10</label><select class="form-control" id="half-first-goal"><option>美国</option><option>澳大利亚</option><option>无进球</option></select></div>
+      <div class="form-group"><label for="half-goals">上半场总进球区间·+10</label><select class="form-control" id="half-goals"><option>0-1球</option><option>2-3球</option><option>4球及以上</option></select></div>
+      <div class="section-title"><h2>全场预测</h2><small>最高80分</small></div>
+      <div class="form-group"><label for="prediction-result">全场胜平负·+10</label><select class="form-control" id="prediction-result"><option>美国胜</option><option>平局</option><option>澳大利亚胜</option></select></div>
+      <div class="form-group"><label for="challenge-score">全场精确比分·+30</label><select class="form-control" id="challenge-score"><option>美国 2-1 澳大利亚</option><option>美国 1-0 澳大利亚</option><option>美国 1-1 澳大利亚</option></select></div>
+      <div class="form-group"><label for="prediction-first-goal">全场首个进球队·+10</label><select class="form-control" id="prediction-first-goal"><option>美国</option><option>澳大利亚</option><option>无进球</option></select></div>
+      <div class="form-group"><label for="match-red-card">全场是否出现红牌·+15</label><select class="form-control" id="match-red-card"><option>没有</option><option>有</option></select></div>
+      <div class="form-group"><label for="match-yellow-cards">全场黄牌数量·+15</label><select class="form-control" id="match-yellow-cards"><option>0-2张</option><option>3-5张</option><option>6张及以上</option></select><span class="form-hint">开赛前可修改，开赛后所有答案锁定。</span></div>
+      <button id="create-prediction-button" style="width:100%" onclick="createPrediction(this)">保存预测并创建PK房</button>
+    </section>
+
+    <section class="view" id="predictionLeaderboard">
+      <button class="back" onclick="showView('home', true)">返回首页</button>
+      <header class="topbar"><p class="eyebrow">预测得准，排名就要稳</p><h1>全民预测榜</h1><p class="sub">实力分看准确度，PK荣誉分看多人房间战绩。</p></header>
+      <article class="card"><div class="section-title"><h3>我的排名</h3><strong class="social-count" id="leaderboard-my-rank">--</strong></div><p class="sub" id="leaderboard-my-summary">完成一次预测后生成排名</p></article>
+      <div class="points-rule"><div><strong>+10</strong>胜平负</div><div><strong>+30</strong>精确比分</div><div><strong>+15</strong>先进球</div></div>
+      <div class="section-title"><h2>实时 TOP 20</h2><small id="leaderboard-updated">读取中</small></div>
+      <article class="card" id="leaderboard-list"><p class="sub">正在读取排行榜。</p></article>
+      <div class="prediction-poster"><p class="eyebrow">我猜中了</p><h3>巴西 3-0 海地</h3><strong>+55 分</strong><p class="sub">胜负、比分、先进球全中｜超越 98% 球迷</p></div>
+      <button style="width:100%" onclick="sharePrototype(this)">分享成功海报</button>
+    </section>
+
+    <section class="view" id="mySocial">
+      <button class="back" onclick="showView('home', true)">返回首页</button>
+      <header class="topbar"><p class="eyebrow">我的PK记录</p><h1>我的预测</h1><p class="sub">实力分 86｜全国第128名｜PK冠军 2 次</p></header>
+      <div id="social-created"></div>
+      <div class="section-title"><h2>进行中</h2><small>2 项</small></div>
+      <article class="card"><span class="tag hot">等待开赛</span><h3 style="margin-top:10px">美国 vs 澳大利亚·猜美国胜·2-1</h3><p class="sub">已生成赛前预测卡｜开赛后自动锁定并结算积分</p></article>
+      <article class="card"><span class="tag">多人PK·已成局</span><h3 style="margin-top:10px">美国 vs 澳大利亚·6人房</h3><p class="sub">所有人答案已锁定｜半场即时结算</p></article>
+    </section>
+
+  </main>
+
+  <nav class="app-nav" aria-label="底部导航">
+    <button class="tab active" data-tab="home" onclick="showView('home', true)">首页</button>
+    <button class="tab" data-tab="schedule" onclick="showView('schedule', true)">赛程</button>
+    <button class="tab" data-tab="results" onclick="showView('results', true)">赛果</button>
+    <button class="tab" data-tab="teams" onclick="showView('teams', true)">球队</button>
+    <button class="tab" data-tab="stats" onclick="showView('stats', true)">数据</button>
+  </nav>
+
+  <dialog class="profile-dialog" id="profile-dialog">
+    <form method="dialog" id="profile-form">
+      <p class="eyebrow">预测身份</p>
+      <h2>设置你的昵称</h2>
+      <div class="form-group">
+        <label for="profile-nickname">昵称</label>
+        <input class="form-control" id="profile-nickname" name="nickname" maxlength="20" autocomplete="nickname" placeholder="例如：凌晨球迷" required>
+      </div>
+      <div class="profile-actions">
+        <button class="secondary" type="button" onclick="cancelProfile()">取消</button>
+        <button type="submit">进入预测</button>
+      </div>
+    </form>
+  </dialog>
+  <div class="toast" id="app-toast" role="status" hidden></div>
+
+  <script src="./js/app-config.js?v=20260620-1"></script>
+  <script src="./js/prediction-service.js?v=20260620-1"></script>
+  <script src="./data/prototype-data.js?v=20260620-1200"></script>
+  <script>
+    const views = Array.from(document.querySelectorAll(".view"));
+    const tabs = Array.from(document.querySelectorAll(".tab"));
+    let lastTab = "home";
+    let predictionService;
+    let currentPredictionRoomId = "";
+    let submittingToExistingRoom = false;
+    let pendingProfileResolver = null;
+    let toastTimer = null;
+
+    const teamNames = {
+      Algeria: "阿尔及利亚",
+      Argentina: "阿根廷",
+      Australia: "澳大利亚",
+      Austria: "奥地利",
+      Belgium: "比利时",
+      "Bosnia and Herzegovina": "波黑",
+      Brazil: "巴西",
+      "Cabo Verde": "佛得角",
+      Canada: "加拿大",
+      Colombia: "哥伦比亚",
+      "Congo DR": "刚果民主共和国",
+      Croatia: "克罗地亚",
+      "Côte d'Ivoire": "科特迪瓦",
+      Curaçao: "库拉索",
+      Czechia: "捷克",
+      Ecuador: "厄瓜多尔",
+      Egypt: "埃及",
+      England: "英格兰",
+      France: "法国",
+      Germany: "德国",
+      Ghana: "加纳",
+      Haiti: "海地",
+      "IR Iran": "伊朗",
+      Iraq: "伊拉克",
+      Japan: "日本",
+      Jordan: "约旦",
+      "Korea Republic": "韩国",
+      Mexico: "墨西哥",
+      Morocco: "摩洛哥",
+      Netherlands: "荷兰",
+      "New Zealand": "新西兰",
+      Norway: "挪威",
+      Panama: "巴拿马",
+      Paraguay: "巴拉圭",
+      Portugal: "葡萄牙",
+      Qatar: "卡塔尔",
+      "Saudi Arabia": "沙特阿拉伯",
+      Scotland: "苏格兰",
+      Senegal: "塞内加尔",
+      "South Africa": "南非",
+      Spain: "西班牙",
+      Sweden: "瑞典",
+      Switzerland: "瑞士",
+      Tunisia: "突尼斯",
+      Türkiye: "土耳其",
+      Uruguay: "乌拉圭",
+      USA: "美国",
+      Uzbekistan: "乌兹别克斯坦",
+    };
+
+    const positionNames = { Goalkeeper: "门将", Defender: "后卫", Midfielder: "中场", Forward: "前锋" };
+    const stageNames = {
+      "First Stage": "小组赛",
+      "Round of 32": "32强赛",
+      "Round of 16": "16强赛",
+      "Quarter-final": "1/4决赛",
+      "Semi-final": "半决赛",
+      "Play-off for third place": "季军赛",
+      "Final": "决赛",
+    };
+    const monthNames = {
+      January: "01", February: "02", March: "03", April: "04", May: "05", June: "06",
+      July: "07", August: "08", September: "09", October: "10", November: "11", December: "12",
+    };
+    const weekNames = {
+      Monday: "周一", Tuesday: "周二", Wednesday: "周三", Thursday: "周四",
+      Friday: "周五", Saturday: "周六", Sunday: "周日",
+    };
+
+    function displayTeamName(name) {
+      if (!name) return "—";
+      if (teamNames[name]) return teamNames[name];
+      const rx = /^([WRU]+)(\d+)$/;
+      const m = name.match(rx);
+      if (m) {
+        const prefix = m[1] === "W" ? "胜者" : m[1] === "RU" ? "亚军" : m[1];
+        return prefix + m[2];
+      }
+      if (/^[1-4][A-L]$/.test(name)) return name.charAt(0) + "组第" + name.slice(1);
+      if (/^[1-4][A-Z]+$/.test(name)) return name;
+      return name;
+    }
+
+    function escapeHtml(value) {
+      if (!value) return "";
+      return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function displayDate(dateText) {
+      if (!dateText) return "";
+      const parts = dateText.split(" ");
+      if (parts.length < 4) return dateText;
+      const w = weekNames[parts[0]] || parts[0];
+      const d = parts[1].padStart(2, "0");
+      const m = monthNames[parts[2]] || parts[2];
+      const y = parts[3];
+      return y + "年" + m + "月" + d + "日 " + w;
+    }
+
+    function dateKey(dateText) {
+      if (!dateText) return "";
+      const parts = dateText.split(" ");
+      if (parts.length < 4) return dateText;
+      return parts[3] + "-" + (monthNames[parts[2]] || "00") + "-" + parts[1].padStart(2, "0");
+    }
+
+    function todayKey() {
+      const d = new Date();
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    }
+
+    function updateStatusTime() {
+      const el = document.getElementById("status-time");
+      if (el) el.textContent = new Date().toLocaleTimeString("zh-CN", { hour12: false, hour: "2-digit", minute: "2-digit" });
+    }
+
+    function displayStage(match) {
+      const stage = stageNames[match.stage] || match.stage || "";
+      if (match.stage === "First Stage" && match.group) return "小组赛 " + match.group.replace("Group ", "") + "组";
+      return stage;
+    }
+
+    function groupByDate(matches) {
+      const groups = {};
+      matches.forEach((m) => {
+        const key = dateKey(m.dateText) || "未知日期";
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(m);
+      });
+      return groups;
+    }
+
+    /* ── Render ── */
+
+    function renderHome() {
+      const data = window.PROTOTYPE_DATA || { matches: [] };
+      const today = todayKey();
+      const allMatches = data.matches || [];
+
+      const todayMatches = allMatches.filter((m) => dateKey(m.dateText) === today);
+      const todayCompleted = todayMatches.filter((m) => m.status === "completed");
+      const todayScheduled = todayMatches.filter((m) => m.status === "scheduled");
+      const upcomingAll = allMatches.filter((m) => m.status === "scheduled").sort((a, b) => dateKey(a.dateText).localeCompare(dateKey(b.dateText)));
+      const nextMatchDay = upcomingAll.length ? dateKey(upcomingAll[0].dateText) : "";
+
+      const homeDateSummary = document.getElementById("home-date-summary");
+      if (homeDateSummary && todayMatches.length) {
+        homeDateSummary.textContent = displayDate(todayMatches[0].dateText) + " · " + todayMatches.length + " 场比赛";
+      }
+
+      // Featured hero
+      const heroContainer = document.getElementById("home-featured");
+      if (heroContainer) {
+        const heroMatch = todayScheduled.length ? todayScheduled[0] : (upcomingAll.length ? upcomingAll[0] : null);
+        if (heroMatch) {
+          heroContainer.innerHTML = `<div class="hero">
+            <p class="eyebrow">今晚推荐</p>
+            <div class="match-head">
+              <span class="team">${escapeHtml(displayTeamName(heroMatch.homeTeam))}</span>
+              <span class="vs">VS</span>
+              <span class="team">${escapeHtml(displayTeamName(heroMatch.awayTeam))}</span>
+            </div>
+            <p class="meta">${escapeHtml(displayStage(heroMatch))} · ${escapeHtml(heroMatch.venue || "")} · ${escapeHtml(heroMatch.time || "")}</p>
+            <div class="tags"><span class="tag hot">必看</span><span class="tag">焦点战</span></div>
+          </div>`;
+        } else {
+          heroContainer.innerHTML = `<div class="hero"><p class="eyebrow">赛程告一段落</p><p class="sub">下一轮比赛即将到来，敬请期待。</p></div>`;
+        }
+      }
+
+      // Upcoming today
+      const upcomingDiv = document.getElementById("home-upcoming");
+      if (upcomingDiv) {
+        const matches = todayScheduled.length ? todayScheduled : upcomingAll.slice(0, 4);
+        upcomingDiv.innerHTML = `<div class="section-title"><h2>${todayScheduled.length ? "今日比赛" : "即将到来"}</h2><small>${matches.length} 场</small></div>` +
+          matches.map((m) => `<article class="card">
+            <div class="match-head">
+              <span class="team">${escapeHtml(displayTeamName(m.homeTeam))}</span>
+              <span class="vs">VS</span>
+              <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
+            </div>
+            <p class="meta">${escapeHtml(displayStage(m))} · ${escapeHtml(m.venue || "")} · ${escapeHtml(m.time || "待定")}</p>
+            <button class="ghost" onclick="openMatch('${m.id}')">查看详情 →</button>
+          </article>`).join("");
+      }
+
+      // Today's results
+      const resultsDiv = document.getElementById("home-today-results");
+      if (resultsDiv) {
+        if (todayCompleted.length) {
+          resultsDiv.innerHTML = `<div class="section-title"><h2>今日赛果</h2><small>${todayCompleted.length} 场</small></div>` +
+            todayCompleted.map((m) => `<article class="card">
+              <div class="match-head">
+                <span class="team">${escapeHtml(displayTeamName(m.homeTeam))}</span>
+                <span class="score">${m.homeScore} - ${m.awayScore}</span>
+                <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
+              </div>
+              <p class="meta">${escapeHtml(displayStage(m))} · ${escapeHtml(m.venue || "")}</p>
+              <button class="ghost" onclick="openMatch('${m.id}')">查看详情 →</button>
+            </article>`).join("");
+        } else {
+          resultsDiv.innerHTML = "";
+        }
+      }
+
+      // Home social entry (static)
+      const socialDiv = document.getElementById("home-social");
+      if (socialDiv) {
+        socialDiv.innerHTML = `<article class="prediction-entry">
+          <p class="eyebrow">预测PK</p>
+          <h3>和朋友一起猜比赛</h3>
+          <p class="sub">赛前立预测，赛中实时排名，终场晒冠军海报。</p>
+          <button onclick="showView('challengeCreate')">发起一场PK</button>
+          <button class="prediction-link" onclick="showView('predictionLeaderboard')">查看全民预测榜</button>
+          <button class="prediction-link" onclick="showView('mySocial')">我的预测</button>
+        </article>`;
+      }
+
+      // Nearby entry
+      const nearbyDiv = document.getElementById("home-nearby");
+      if (nearbyDiv) {
+        nearbyDiv.innerHTML = `<article class="card social-entry">
+          <div><h3>附近观赛热度</h3><p class="sub">看看周边有多少人也在准备看球。</p></div>
+          <button onclick="openSocialHub(false)">查看</button>
+        </article>`;
+      }
+    }
+
+    function renderMatchData() {
+      const data = window.PROTOTYPE_DATA || { matches: [] };
+      const completed = (data.matches || []).filter((m) => m.status === "completed").sort((a, b) => dateKey(b.dateText).localeCompare(dateKey(a.dateText)));
+      const groups = groupByDate(completed);
+
+      // Results tab
+      const resultsList = document.getElementById("results-list");
+      if (resultsList) {
+        resultsList.innerHTML = Object.keys(groups).sort().reverse().map((d) => {
+          const matches = groups[d];
+          return `<div class="section-title"><h2>${displayDate(matches[0].dateText)}</h2><small>${matches.length} 场</small></div>` +
+            matches.map((m) => `<article class="card">
+              <div class="match-head">
+                <span class="team">${escapeHtml(displayTeamName(m.homeTeam))}</span>
+                <span class="score">${m.homeScore} - ${m.awayScore}</span>
+                <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
+              </div>
+              <p class="meta">${escapeHtml(displayStage(m))} · ${escapeHtml(m.venue || "")}</p>
+              <button class="ghost" onclick="openMatch('${m.id}')">查看比赛详情 →</button>
+            </article>`).join("");
+        }).join("");
+      }
+
+      // Stats tab
+      renderStats(data);
+    }
+
+    /* ── Schedule ── */
+    let scheduleMode = "date";
+    window.setScheduleMode = function setScheduleMode(mode) {
+      scheduleMode = mode;
+      const chips = document.querySelectorAll("#schedule .chip");
+      chips.forEach((c) => c.classList.toggle("active", c.dataset.scheduleMode === mode));
+      renderScheduleMode();
+    };
+
+    function renderScheduleMode() {
+      const data = window.PROTOTYPE_DATA || { matches: [] };
+      const list = document.getElementById("schedule-list");
+      if (!list) return;
+
+      if (scheduleMode === "stage") { renderBracket(list, data); return; }
+      if (scheduleMode === "group") { renderStandings(list, data); return; }
+      if (scheduleMode === "venue") { renderVenueSchedule(list, data); return; }
+      renderDateSchedule(list, data);
+    }
+
+    function renderDateSchedule(list, data) {
+      const scheduled = (data.matches || []).filter((m) => m.status === "scheduled" || !m.status).sort((a, b) => dateKey(a.dateText).localeCompare(dateKey(b.dateText)));
+      const groups = groupByDate(scheduled);
+      list.innerHTML = Object.keys(groups).sort().map((d) => {
+        const matches = groups[d];
+        return `<div class="section-title"><h2>${displayDate(matches[0].dateText)}</h2><small>${matches.length} 场</small></div>` +
+          matches.map((m) => `<article class="card">
+            <div class="match-head">
+              <span class="team">${escapeHtml(displayTeamName(m.homeTeam))}</span>
+              <span class="vs">VS</span>
+              <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
+            </div>
+            <p class="meta">${escapeHtml(displayStage(m))} · ${escapeHtml(m.venue || "")} · ${escapeHtml(m.time || "待定")}</p>
+            <button class="ghost" onclick="openMatch('${m.id}')">查看详情 →</button>
+          </article>`).join("");
+      }).join("");
+    }
+
+    function renderBracket(list, data) {
+      const knockoutStages = ["Round of 32", "Round of 16", "Quarter-final", "Semi-final", "Play-off for third place", "Final"];
+      const koMatches = (data.matches || []).filter((m) => knockoutStages.includes(m.stage));
+
+      const stageOrder = ["Round of 32", "Round of 16", "Quarter-final", "Semi-final", "Play-off for third place", "Final"];
+      const grouped = {};
+      stageOrder.forEach((s) => { grouped[s] = []; });
+      koMatches.forEach((m) => { if (grouped[m.stage]) grouped[m.stage].push(m); });
+
+      list.innerHTML = `<div class="bracket-scroll"><div class="bracket-grid">` +
+        stageOrder.map((s) => `<div class="bracket-stage">
+          <h3>${escapeHtml(stageNames[s] || s)}</h3>
+          <div class="bracket-matches">` +
+          grouped[s].map((m) => `<article class="bracket-match" onclick="openMatch('${m.id}')">
+            <div class="bracket-team"><span>${escapeHtml(displayTeamName(m.homeTeam))}</span>${m.homeScore != null ? "<strong>" + m.homeScore + "</strong>" : ""}</div>
+            <div class="bracket-team"><span>${escapeHtml(displayTeamName(m.awayTeam))}</span>${m.awayScore != null ? "<strong>" + m.awayScore + "</strong>" : ""}</div>
+          </article>`).join("") +
+          `</div></div>`).join("") +
+        `</div></div>`;
+    }
+
+    function renderStandings(list, data) {
+      const standings = data.standings || [];
+      if (!standings.length) { list.innerHTML = `<p class="sub">暂无小组积分数据。</p>`; return; }
+      list.innerHTML = standings.map((g) => `<div class="standings-group">
+        <h3>${escapeHtml(g.group)} 组</h3>
+        <div class="standings-table-wrap">
+          <table class="standings-table">
+            <thead><tr><th>#</th><th>球队</th><th>赛</th><th>胜</th><th>平</th><th>负</th><th>进</th><th>失</th><th>净</th><th>分</th></tr></thead>
+            <tbody>` +
+        g.rows.map((r) => `<tr>
+          <td><span class="standings-rank${r.rank <= 2 ? " qualifying" : ""}">${r.rank}</span></td>
+          <td>${escapeHtml(displayTeamName(r.team))}</td>
+          <td>${r.played}</td><td>${r.won}</td><td>${r.drawn}</td><td>${r.lost}</td>
+          <td>${r.goalsFor}</td><td>${r.goalsAgainst}</td><td>${r.goalDifference}</td><td><strong>${r.points}</strong></td>
+        </tr>`).join("") +
+        `</tbody></table></div></div>`).join("");
+    }
+
+    function renderVenueSchedule(list, data) {
+      const venues = data.venues || [];
+      if (!venues.length) { list.innerHTML = `<p class="sub">暂无场馆数据。</p>`; return; }
+      list.innerHTML = venues.map((v) => {
+        const venueMatches = (data.matches || []).filter((m) => v.matchIds && v.matchIds.includes(m.id));
+        return `<div class="venue-schedule">
+          <div class="section-title"><h2>${escapeHtml(v.name)}</h2><small>${escapeHtml(v.city)} · ${v.matchCount || 0} 场</small></div>` +
+          (venueMatches.length ? venueMatches.map((m) => `<article class="card">
+            <div class="match-head">
+              <span class="team">${escapeHtml(displayTeamName(m.homeTeam))}</span>
+              ${m.status === "completed" ? `<span class="score">${m.homeScore} - ${m.awayScore}</span>` : `<span class="vs">VS</span>`}
+              <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
+            </div>
+            <p class="meta">${escapeHtml(displayDate(m.dateText))} · ${escapeHtml(displayStage(m))} · ${escapeHtml(m.time || "待定")}</p>
+            <button class="ghost" onclick="openMatch('${m.id}')">查看详情 →</button>
+          </article>`).join("") : `<p class="sub">暂无比赛数据。</p>`) +
+          `</div>`;
+      }).join("");
+    }
+
+    function renderStats(data) {
+      const stats = data.tournamentStats || {};
+      const summary = document.getElementById("stats-summary");
+      if (summary) {
+        summary.innerHTML = `<div class="stats-grid">
+          <article class="card stat-card"><span class="sub">总进球</span><strong class="stat-value">${stats.totalGoals || "—"}</strong></article>
+          <article class="card stat-card"><span class="sub">场均进球</span><strong class="stat-value">${stats.goalsPerMatch || "—"}</strong></article>
+          <article class="card stat-card"><span class="sub">平局</span><strong class="stat-value">${stats.draws || "—"}</strong></article>
+          <article class="card stat-card"><span class="sub">零封</span><strong class="stat-value">${stats.cleanSheets || "—"}</strong></article>
+        </div>
+        <p class="sub" style="margin-top:8px">已完成 ${stats.completedMatches || 0} 场比赛</p>`;
+      }
+
+      const power = data.powerRankings || {};
+      const leaders = document.getElementById("power-leaders");
+      if (leaders && power.leaders) {
+        const cats = { attacking: "进攻", creativity: "创造力", defending: "防守" };
+        leaders.innerHTML = `<div class="section-title"><h2>Power Rankings 领跑者</h2></div><div class="leader-grid">` +
+          power.leaders.map((l) => `<article class="card leader-card">
+            <div><strong>${escapeHtml(cats[l.category] || l.category)}</strong> · ${escapeHtml(displayTeamName(l.team))}</div>
+            <div class="leader-score">${l.score}</div>
+          </article>`).join("") + `</div>`;
+      }
+
+      const list = document.getElementById("power-ranking-list");
+      if (list && power.topOutfield) {
+        list.innerHTML = `<div class="section-title"><h2>Top 10 球员</h2></div>
+          <div class="ranking-table">
+            <div class="ranking-row ranking-head"><span>#</span><span class="ranking-player">球员</span><span>攻</span><span>创</span><span>防</span></div>` +
+          power.topOutfield.map((p) => `<div class="ranking-row">
+            <span>${p.rank}</span>
+            <span class="ranking-player"><strong>${escapeHtml(p.player)}</strong><span>${escapeHtml(displayTeamName(p.team))}</span></span>
+            <span>${p.attacking}</span><span>${p.creativity}</span><span>${p.defending}</span>
+          </div>`).join("") + `</div>`;
+      }
+    }
+
+    /* ── Detail views ── */
+
+    window.openMatch = function openMatch(matchId) {
+      const data = window.PROTOTYPE_DATA || { matches: [] };
+      const match = (data.matches || []).find((m) => m.id === matchId);
+      if (!match) return;
+
+      document.getElementById("match-detail-title").textContent = displayTeamName(match.homeTeam) + " vs " + displayTeamName(match.awayTeam);
+      document.getElementById("match-detail-meta").textContent = displayDate(match.dateText) + " · " + displayStage(match);
+
+      const statusEl = document.getElementById("match-detail-status");
+      const summaryEl = document.getElementById("match-detail-summary");
+      if (match.status === "completed") {
+        statusEl.textContent = match.homeScore + " - " + match.awayScore;
+        summaryEl.textContent = match.homeTeam + " " + match.homeScore + " - " + match.awayScore + " " + match.awayTeam + " · " + displayStage(match);
+      } else {
+        statusEl.textContent = "即将开赛";
+        summaryEl.textContent = displayTeamName(match.homeTeam) + " vs " + displayTeamName(match.awayTeam) + " · " + (match.time || "待定");
+      }
+
+      document.getElementById("match-detail-venue").textContent = (match.venue || "待定") + (match.city ? " · " + match.city : "");
+
+      const sourceLink = document.getElementById("match-source-link");
+      sourceLink.href = match.sourceUrl || "#";
+      sourceLink.hidden = !match.sourceUrl;
+
+      const highlightLink = document.getElementById("match-highlight-link");
+      if (match.status === "completed") {
+        highlightLink.hidden = false;
+        highlightLink.href = "https://search.cctv.com/search.php?q=" + encodeURIComponent(match.homeTeam + " " + match.awayTeam + " 集锦");
+      } else {
+        highlightLink.hidden = true;
+      }
+
+      const teamBtn = document.getElementById("match-team-button");
+      teamBtn.onclick = () => { openTeamFromMatch(match.homeTeam); };
+      teamBtn.textContent = "看" + displayTeamName(match.homeTeam);
+
+      window.currentSocialMatch = match;
+      showView("matchDetail");
+    };
+
+    function openTeamFromMatch(teamName) {
+      const data = window.PROTOTYPE_DATA || { teams: [] };
+      const team = (data.teams || []).find((t) => t.name === teamName);
+      if (team) { openTeam(team.id); } else { showView("teams", true); }
+    }
+
+    function openVenue(venueId) {
+      const data = window.PROTOTYPE_DATA || { matches: [], venues: [] };
+      const venue = (data.venues || []).find((v) => v.id === venueId);
+      if (!venue) return;
+
+      document.getElementById("venue-detail-name").textContent = venue.name;
+      document.getElementById("venue-detail-meta").textContent = venue.city + " · 容量 " + (venue.capacity || "—");
+      document.getElementById("venue-detail-summary").textContent = "FIFA 2026 世界杯比赛场馆，位于" + venue.city + "。";
+
+      const matchList = document.getElementById("venue-match-list");
+      const venueMatches = (data.matches || []).filter((m) => venue.matchIds && venue.matchIds.includes(m.id));
+      matchList.innerHTML = venueMatches.length ?
+        venueMatches.map((m) => `<article class="card">
+          <div class="match-head">
+            <span class="team">${escapeHtml(displayTeamName(m.homeTeam))}</span>
+            ${m.status === "completed" ? `<span class="score">${m.homeScore} - ${m.awayScore}</span>` : `<span class="vs">VS</span>`}
+            <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
+          </div>
+          <p class="meta">${escapeHtml(displayDate(m.dateText))} · ${escapeHtml(displayStage(m))}</p>
+          <button class="ghost" onclick="openMatch('${m.id}')">查看详情 →</button>
+        </article>`).join("") : `<p class="sub">暂无比赛数据。</p>`;
+
+      showView("venueDetail");
+    }
+
+    window.backToVenueSchedule = function backToVenueSchedule() {
+      scheduleMode = "venue";
+      renderScheduleMode();
+      showView("schedule", true);
+    };
+
+    /* ── Social ── */
+
+    window.openSocialHub = function openSocialHub(fromMatch) {
+      const ctx = document.getElementById("social-match-context");
+      if (fromMatch && window.currentSocialMatch) {
+        const m = window.currentSocialMatch;
+        ctx.innerHTML = `<article class="card">
+          <div class="match-head">
+            <span class="team">${escapeHtml(displayTeamName(m.homeTeam))}</span>
+            <span class="vs">VS</span>
+            <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
+          </div>
+          <p class="meta">${escapeHtml(displayStage(m))} · ${escapeHtml(m.venue || "")}</p>
+        </article>`;
+      } else {
+        ctx.innerHTML = "";
+      }
+      showView("socialHub");
+    };
+
+    window.setSocialDistance = function setSocialDistance(btn, km) {
+      const chips = document.querySelectorAll("#distance-filters .chip");
+      chips.forEach((c) => c.classList.remove("active"));
+      btn.classList.add("active");
+
+      const viewers = { 1: 12, 5: 194, 10: 361, 50: 820, 100: 1440 };
+      const predictors = { 1: 5, 5: 128, 10: 247, 50: 549, 100: 972 };
+      document.getElementById("nearby-viewers").textContent = viewers[km] || 0;
+      document.getElementById("nearby-predictors").textContent = predictors[km] || 0;
+    };
+
+    window.sharePrototype = function sharePrototype(btn) {
+      const orig = btn.textContent;
+      btn.textContent = "分享卡已生成";
+      btn.disabled = true;
+      setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 1600);
+      showToast("分享卡已生成（原型演示）");
+    };
+
+    function showToast(msg) {
+      const toast = document.getElementById("app-toast");
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.hidden = false;
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toast.hidden = true; }, 2200);
+    }
+
+    /* ── Prediction ── */
+
+    window.ensurePredictionProfile = async function ensurePredictionProfile() {
+      if (!predictionService) return null;
+      let profile = await predictionService.getProfile();
+      if (profile) return profile;
+      return new Promise((resolve) => {
+        pendingProfileResolver = resolve;
+        document.getElementById("profile-dialog").showModal();
+      });
+    };
+
+    window.cancelProfile = function cancelProfile() {
+      document.getElementById("profile-dialog").close();
+      pendingProfileResolver?.(null);
+      pendingProfileResolver = null;
+    };
+
+    window.populateChallengeMatches = function populateChallengeMatches() {
+      const data = window.PROTOTYPE_DATA || { matches: [] };
+      const upcoming = (data.matches || []).filter((m) => m.status === "scheduled").sort((a, b) => dateKey(a.dateText).localeCompare(dateKey(b.dateText))).slice(0, 20);
+      const select = document.getElementById("challenge-match");
+      if (!select) return;
+      select.innerHTML = upcoming.map((m) => `<option value="${m.id}">${displayDate(m.dateText)} · ${displayTeamName(m.homeTeam)} vs ${displayTeamName(m.awayTeam)}</option>`).join("");
+      if (upcoming.length) syncPredictionMatch();
+    };
+
+    window.syncPredictionMatch = function syncPredictionMatch() {
+      const select = document.getElementById("challenge-match");
+      if (!select) return;
+      const matchId = select.value;
+      const data = window.PROTOTYPE_DATA || { matches: [] };
+      const match = (data.matches || []).find((m) => m.id === matchId);
+      if (!match) return;
+      // Update prediction form default values based on selected match
+      const resultSelect = document.getElementById("prediction-result");
+      if (resultSelect && resultSelect.options.length === 0) {
+        resultSelect.innerHTML = `<option>${displayTeamName(match.homeTeam)}胜</option><option>平局</option><option>${displayTeamName(match.awayTeam)}胜</option>`;
+      }
+    };
+
+    window.collectPredictionAnswers = function collectPredictionAnswers() {
+      return {
+        halfResult: document.getElementById("half-result")?.value || "",
+        halfScore: document.getElementById("half-score")?.value || "",
+        halfFirstGoal: document.getElementById("half-first-goal")?.value || "",
+        halfGoals: document.getElementById("half-goals")?.value || "",
+        result: document.getElementById("prediction-result")?.value || "",
+        score: document.getElementById("challenge-score")?.value || "",
+        firstGoal: document.getElementById("prediction-first-goal")?.value || "",
+        redCard: document.getElementById("match-red-card")?.value || "",
+        yellowCards: document.getElementById("match-yellow-cards")?.value || "",
+      };
+    };
+
+    window.createPrediction = async function createPrediction(btn) {
+      const profile = await ensurePredictionProfile();
+      if (!profile) return;
+
+      const matchId = document.getElementById("challenge-match")?.value || "";
+      const answers = collectPredictionAnswers();
+
+      btn.disabled = true;
+      btn.textContent = "创建中...";
+      try {
+        const room = await predictionService.createRoom({ matchId, answers });
+        currentPredictionRoomId = room.id;
+        updateRoomUrl(room);
+        renderPredictionRoom(room);
+        showView("pkRoom");
+        showToast("PK房已创建，分享给好友吧");
+      } catch (e) {
+        showToast("创建失败，请重试");
+      }
+      btn.disabled = false;
+      btn.textContent = submittingToExistingRoom ? "加入PK房" : "保存预测并创建PK房";
+    };
+
+    function updateRoomUrl(room) {
+      if (room?.joinCode) {
+        const url = new URL(window.location);
+        url.searchParams.set("room", room.joinCode);
+        window.history.replaceState({}, "", url);
+      }
+    }
+
+    window.renderPredictionRoom = function renderPredictionRoom(room) {
+      if (!room) return;
+      const data = window.PROTOTYPE_DATA || { matches: [] };
+      const match = (data.matches || []).find((m) => m.id === room.matchId);
+
+      document.getElementById("pk-room-title").textContent = room.name || "预测PK房";
+      document.getElementById("pk-room-match").textContent = match ?
+        displayTeamName(match.homeTeam) + " vs " + displayTeamName(match.awayTeam) + " · " + displayDate(match.dateText) : "正在读取比赛";
+
+      document.getElementById("pk-room-count").textContent = (room.memberCount || 1) + "/20人";
+      document.getElementById("pk-room-state").textContent = (room.memberCount || 1) >= 2 ? "已成局" : "等待好友加入";
+      document.getElementById("pk-room-reward").textContent = "至少2人成局，参与人数越多，冠军荣誉分越高。";
+
+      // Participants
+      const participantsDiv = document.getElementById("pk-room-participants");
+      const members = room.members || [];
+      participantsDiv.innerHTML = members.map((m) => `<div class="pk-person"><div class="avatar">${(m.nickname || "?")[0]}</div>${escapeHtml(m.nickname || "匿名")}</div>`).join("");
+
+      document.getElementById("pk-prediction-summary").textContent = room.myPrediction ?
+        "已提交：" + (room.myPrediction.result || "预测已锁定") : "尚未提交";
+
+      const submitBtn = document.getElementById("pk-room-submit-button");
+      if (submitBtn) submitBtn.hidden = !!room.myPrediction;
+    };
+
+    window.sharePkRoom = function sharePkRoom(btn) {
+      sharePrototype(btn);
+    };
+
+    window.editRoomPrediction = function editRoomPrediction() {
+      submittingToExistingRoom = true;
+      document.getElementById("create-prediction-button").textContent = "保存预测";
+      showView("challengeCreate");
+    };
+
+    window.sendPkReply = function sendPkReply(btn) {
+      const lastMsg = document.getElementById("pk-last-message");
+      if (lastMsg) lastMsg.textContent = "我：" + (btn.textContent || "...");
+    };
+
+    window.submitSecondHalf = function submitSecondHalf() {
+      showToast("闪电预测已提交（原型演示）");
+    };
+
+    window.openSharedPredictionRoom = async function openSharedPredictionRoom(joinCode) {
+      if (!predictionService) return;
+      try {
+        const room = await predictionService.joinRoom(joinCode);
+        if (room) {
+          currentPredictionRoomId = room.id;
+          renderPredictionRoom(room);
+          showView("pkRoom");
+          showToast("已加入PK房");
+        }
+      } catch (e) {
+        showToast("加入失败，请检查邀请码");
+      }
+    };
+
+    window.refreshLeaderboard = async function refreshLeaderboard() {
+      if (!predictionService) return;
+      try {
+        const rows = await predictionService.getLeaderboard();
+        const list = document.getElementById("leaderboard-list");
+        const myRankEl = document.getElementById("leaderboard-my-rank");
+        const mySummary = document.getElementById("leaderboard-my-summary");
+        const updated = document.getElementById("leaderboard-updated");
+
+        if (rows && rows.length) {
+          list.innerHTML = `<div class="rank-table">` +
+            rows.map((r, i) => `<div class="rank-line${r.isMe ? " me" : ""}"><strong>${i + 1}</strong><span>${escapeHtml(r.nickname || "匿名")}</span><strong>${r.points || 0}分</strong></div>`).join("") +
+            `</div>`;
+          if (myRankEl) {
+            const me = rows.find((r) => r.isMe);
+            myRankEl.textContent = me ? "第" + (rows.indexOf(me) + 1) + "名" : "--";
+          }
+          if (mySummary && rows.find((r) => r.isMe)) {
+            mySummary.textContent = "你在排行榜中";
+          }
+        } else {
+          list.innerHTML = `<p class="sub">暂无数据，去预测PK提升排名吧。</p>`;
+        }
+        if (updated) updated.textContent = "刚刚更新";
+      } catch (e) {
+        // silent
+      }
+    };
+
+    /* ── Teams ── */
+
+    function renderOfficialTeams() {
+      const data = window.PROTOTYPE_DATA || { teams: [] };
+      const teams = data.teams || [];
+      const grid = document.getElementById("official-team-grid");
+      const count = document.getElementById("official-team-count");
+
+      if (count) count.textContent = teams.length + " 支球队";
+      if (!grid) return;
+
+      grid.innerHTML = teams.map((t) => `<article class="card team-card" onclick="openTeam('${t.id}')">
+        <div class="team-title-row">
+          <div class="flag">${t.flagUrl ? `<img src="${escapeHtml(t.flagUrl)}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'flag-fallback\\'>${(teamNames[t.name] || t.name)[0]}</span>'">` : `<span>${(teamNames[t.name] || t.name)[0]}</span>`}</div>
+          <h3>${escapeHtml(teamNames[t.name] || t.name)}</h3>
+        </div>
+        <p class="sub">${escapeHtml(t.name)} · ${t.code || ""}</p>
+      </article>`).join("");
+    }
+
+    window.openTeam = function openTeam(teamId) {
+      const data = window.PROTOTYPE_DATA || { teams: [], players: [] };
+      const team = (data.teams || []).find((t) => t.id === teamId);
+      if (!team) return;
+
+      document.getElementById("team-detail-name").textContent = teamNames[team.name] || team.name;
+      document.getElementById("team-detail-meta").textContent = team.name + (team.code ? " · " + team.code : "");
+
+      const flagEl = document.getElementById("team-detail-flag");
+      flagEl.innerHTML = team.flagUrl ?
+        `<img src="${escapeHtml(team.flagUrl)}" alt="" style="width:36px;height:36px;display:block;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=\\'flag-fallback\\'>${(teamNames[team.name] || team.name)[0]}</span>'">` :
+        `<span>${(teamNames[team.name] || team.name)[0]}</span>`;
+
+      const sourceLink = document.getElementById("team-source-link");
+      if (sourceLink) sourceLink.href = team.sourceUrl || "#";
+
+      const players = (data.players || []).filter((p) => p.teamId === team.id);
+      document.getElementById("team-squad-summary").textContent = players.length + " 名球员来自 FIFA 官方阵容";
+
+      const sections = document.getElementById("team-player-sections");
+      if (!sections) return;
+
+      const positions = ["Goalkeeper", "Defender", "Midfielder", "Forward"];
+      sections.innerHTML = positions.map((pos) => {
+        const posPlayers = players.filter((p) => p.position === pos);
+        if (!posPlayers.length) return "";
+        return `<div class="section-title"><h2>${positionNames[pos] || pos}</h2><small>${posPlayers.length} 人</small></div>
+          <div class="player-grid">` +
+          posPlayers.map((p) => `<article class="card player-card">
+            ${p.imageUrl ? `<img class="player-photo" src="${escapeHtml(p.imageUrl)}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.classList.add('player-photo-placeholder');this.nextElementSibling?this.nextElementSibling.querySelector('h3').textContent='${escapeHtml(p.name)}':null">` : `<div class="player-photo player-photo-placeholder">${p.name[0]}</div>`}
+            <div class="player-info"><h3>${escapeHtml(p.name)}</h3><p class="sub">${positionNames[p.position] || p.position}</p></div>
+          </article>`).join("") + `</div>`;
+      }).join("");
+      showView("teamDetail");
+    };
+
+    /* ── Navigation ── */
+
+    function showView(id, fromTab = false) {
+      if (id === "challengeCreate" && !submittingToExistingRoom) {
+        currentPredictionRoomId = "";
+        document.getElementById("create-prediction-button").textContent = "保存预测并创建PK房";
+      }
+      if (fromTab) {
+        lastTab = id;
+      }
+
+      views.forEach((view) => {
+        view.classList.toggle("active", view.id === id);
+        if (view.id === id) {
+          view.scrollTop = 0;
+        }
+      });
+
+      // Scroll app-content to top
+      const main = document.querySelector(".app-content");
+      if (main) main.scrollTop = 0;
+
+      tabs.forEach((tab) => {
+        tab.classList.toggle("active", tab.dataset.tab === id || (!fromTab && tab.dataset.tab === lastTab));
+      });
+
+      if (id === "predictionLeaderboard") {
+        void refreshLeaderboard();
+      }
+    }
+
+    /* ── Init ── */
+
+    async function loadSupabaseClient() {
+      const config = window.APP_CONFIG || {};
+      if (!config.supabaseUrl || !config.supabaseAnonKey || window.supabase?.createClient) return;
+      await new Promise((resolve) => {
+        const script = document.createElement("script");
+        const timeout = window.setTimeout(resolve, 4000);
+        script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+        script.onload = () => {
+          window.clearTimeout(timeout);
+          resolve();
+        };
+        script.onerror = () => {
+          window.clearTimeout(timeout);
+          resolve();
+        };
+        document.head.append(script);
+      });
+    }
+
+    async function initPredictionApp() {
+      await loadSupabaseClient();
+      predictionService = window.PredictionService.create(window.APP_CONFIG || {});
+      populateChallengeMatches();
+
+      const profileForm = document.getElementById("profile-form");
+      profileForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const nickname = document.getElementById("profile-nickname").value.trim();
+        if (!nickname) return;
+        document.getElementById("profile-dialog").close();
+        pendingProfileResolver?.(nickname);
+        pendingProfileResolver = null;
+      });
+      document.getElementById("profile-dialog").addEventListener("cancel", (event) => {
+        event.preventDefault();
+        cancelProfile();
+      });
+
+      const sharedRoomId = new URLSearchParams(window.location.search).get("room");
+      if (sharedRoomId) {
+        await openSharedPredictionRoom(sharedRoomId);
+      }
+    }
+
+    renderOfficialTeams();
+    renderMatchData();
+    renderHome();
+    updateStatusTime();
+    setInterval(updateStatusTime, 60000);
+    void initPredictionApp();
+  </script>
+</body>
+</html>
