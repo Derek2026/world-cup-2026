@@ -202,6 +202,10 @@
     button.secondary, .button.secondary { background: #e8edf2; color: #233140; }
     button.ghost { min-height: 32px; background: transparent; color: var(--brand); padding: 0; text-align: left; }
     .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+    .match-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+    .match-actions.single { grid-template-columns: 1fr; }
+    .match-actions button { width: 100%; }
+    .match-actions .ghost { text-align: center; }
 
     /* ── Back button ── */
     .back {
@@ -627,6 +631,7 @@
       <div class="actions">
         <a class="button" id="match-source-link" href="#" target="_blank" rel="noreferrer">FIFA 比赛页</a>
         <a class="button secondary" id="match-highlight-link" href="#" target="_blank" rel="noreferrer" hidden>搜索央视集锦</a>
+        <button id="match-prediction-button" onclick="startPredictionPk()">预测这场PK</button>
         <button class="secondary" id="match-team-button" onclick="showView('teams', true)">看球队</button>
       </div>
     </section>
@@ -693,7 +698,7 @@
       <div class="stats-grid"><article class="card stat-card"><span class="sub">正在看球</span><strong class="stat-value" id="nearby-viewers">194</strong></article><article class="card stat-card"><span class="sub">已参与预测</span><strong class="stat-value" id="nearby-predictors">128</strong></article></div>
       <article class="card"><h3>附近球队支持率</h3><p class="sub">美国 46%｜澳大利亚 31%｜其他 23%</p></article>
       <p class="safety-note">区域人数只在样本充足时展示，不可点击或追踪具体用户。</p>
-      <button id="map-pk-button" style="width:100%" onclick="showView('challengeCreate')">发起预测PK</button>
+      <button id="map-pk-button" style="width:100%" onclick="startPredictionPk()">选择比赛发起PK</button>
     </section>
 
     <section class="view" id="pkRoom">
@@ -989,6 +994,18 @@
       return groups;
     }
 
+    function renderMatchActions(match, options = {}) {
+      const detailLabel = options.detailLabel || "查看详情 →";
+      const canPredict = match && match.status !== "completed";
+      const predictionButton = canPredict
+        ? `<button onclick="startPredictionPk('${match.id}')">预测这场PK</button>`
+        : "";
+      return `<div class="match-actions${canPredict ? "" : " single"}">
+        <button class="ghost" onclick="openMatch('${match.id}')">${detailLabel}</button>
+        ${predictionButton}
+      </div>`;
+    }
+
     /* ── Render ── */
 
     function renderHome() {
@@ -1037,6 +1054,7 @@
             </div>
             <p class="meta">${escapeHtml(displayStage(heroMatch))} · ${escapeHtml(heroMatch.venue || "")} · ${escapeHtml(heroMatch.time || "")}</p>
             ${tagsHtml}
+            ${heroMatch.status !== "completed" ? `<button style="width:100%;margin-top:14px;background:var(--accent);color:#17202a" onclick="startPredictionPk('${heroMatch.id}')">预测这场PK</button>` : ""}
           </div>`;
         } else {
           heroContainer.innerHTML = `<div class="hero"><p class="eyebrow">赛程告一段落</p><p class="sub">下一轮比赛即将到来，敬请期待。</p></div>`;
@@ -1055,7 +1073,7 @@
                 <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
               </div>
               <p class="meta">${escapeHtml(displayStage(m))} · ${escapeHtml(m.venue || "")} · ${escapeHtml(m.time || "")} 开球</p>
-              <button class="ghost" onclick="openMatch('${m.id}')">查看详情 →</button>
+              ${renderMatchActions(m)}
             </article>`).join("");
         }
 
@@ -1071,7 +1089,7 @@
                   <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
                 </div>
                 <p class="meta">${escapeHtml(displayStage(m))} · ${escapeHtml(m.venue || "")} · ${escapeHtml(m.time || "待定")} 开球</p>
-                <button class="ghost" onclick="openMatch('${m.id}')">查看详情 →</button>
+                ${renderMatchActions(m)}
               </article>`).join("");
           }
           // Today's completed results
@@ -1084,7 +1102,7 @@
                   <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
                 </div>
                 <p class="meta">${escapeHtml(displayStage(m))} · ${escapeHtml(m.venue || "")}</p>
-                <button class="ghost" onclick="openMatch('${m.id}')">查看详情 →</button>
+                ${renderMatchActions(m)}
               </article>`).join("");
           }
         }
@@ -1101,7 +1119,7 @@
                 <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
               </div>
               <p class="meta">${escapeHtml(displayStage(m))} · ${escapeHtml(m.venue || "")} · ${escapeHtml(m.time || "待定")} 开球</p>
-              <button class="ghost" onclick="openMatch('${m.id}')">查看详情 →</button>
+              ${renderMatchActions(m)}
             </article>`).join("");
         }
 
@@ -1116,7 +1134,7 @@
                   <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
                 </div>
                 <p class="meta">${escapeHtml(displayStage(m))} · ${escapeHtml(m.venue || "")}</p>
-                <button class="ghost" onclick="openMatch('${m.id}')">查看详情 →</button>
+                ${renderMatchActions(m)}
               </article>`).join("");
           } else {
             resultsDiv.innerHTML = "";
@@ -1129,9 +1147,9 @@
       if (socialDiv) {
         socialDiv.innerHTML = `<article class="prediction-entry">
           <p class="eyebrow">预测PK</p>
-          <h3>和朋友一起猜比赛</h3>
-          <p class="sub">赛前立预测，赛中实时排名，终场晒冠军海报。</p>
-          <button onclick="showView('challengeCreate')">发起一场PK</button>
+          <h3>选择一场比赛，和朋友一起预测</h3>
+          <p class="sub">每场比赛独立开局。分享对应比赛链接，朋友进同一场PK。</p>
+          <button onclick="startPredictionPk()">预测最近一场</button>
           <button class="prediction-link" onclick="showView('predictionLeaderboard')">查看全民预测榜</button>
           <button class="prediction-link" onclick="showView('mySocial')">我的预测</button>
         </article>`;
@@ -1165,7 +1183,7 @@
                 <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
               </div>
               <p class="meta">${escapeHtml(displayStage(m))} · ${escapeHtml(m.venue || "")}</p>
-              <button class="ghost" onclick="openMatch('${m.id}')">查看比赛详情 →</button>
+              ${renderMatchActions(m, { detailLabel: "查看比赛详情 →" })}
             </article>`).join("");
         }).join("");
       }
@@ -1214,7 +1232,7 @@
                 <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
               </div>
               <p class="meta">${escapeHtml(displayStage(m))} · ${escapeHtml(m.venue || "")} · ${escapeHtml(m.time || "待定")}${isLive ? " · 🔴 正在直播" : ""}</p>
-              <button class="ghost" onclick="openMatch('${m.id}')">查看详情 →</button>
+              ${renderMatchActions(m)}
             </article>`;
           }).join("");
       }).join("");
@@ -1273,7 +1291,7 @@
               <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
             </div>
             <p class="meta">${escapeHtml(displayDate(m.dateText))} · ${escapeHtml(displayStage(m))} · ${escapeHtml(m.time || "待定")}</p>
-            <button class="ghost" onclick="openMatch('${m.id}')">查看详情 →</button>
+            ${renderMatchActions(m)}
           </article>`).join("") : `<p class="sub">暂无比赛数据。</p>`) +
           `</div>`;
       }).join("");
@@ -1363,6 +1381,12 @@
       teamBtn.onclick = () => { openTeamFromMatch(match.homeTeam); };
       teamBtn.textContent = "看" + displayTeamName(match.homeTeam);
 
+      const predictionBtn = document.getElementById("match-prediction-button");
+      if (predictionBtn) {
+        predictionBtn.hidden = match.status === "completed";
+        predictionBtn.onclick = () => { startPredictionPk(match.id); };
+      }
+
       window.currentSocialMatch = match;
       showView("matchDetail");
     };
@@ -1392,7 +1416,7 @@
             <span class="team">${escapeHtml(displayTeamName(m.awayTeam))}</span>
           </div>
           <p class="meta">${escapeHtml(displayDate(m.dateText))} · ${escapeHtml(displayStage(m))}</p>
-          <button class="ghost" onclick="openMatch('${m.id}')">查看详情 →</button>
+          ${renderMatchActions(m)}
         </article>`).join("") : `<p class="sub">暂无比赛数据。</p>`;
 
       showView("venueDetail");
@@ -1491,6 +1515,51 @@
       if (resultSelect && resultSelect.options.length === 0) {
         resultSelect.innerHTML = `<option>${displayTeamName(match.homeTeam)}胜</option><option>平局</option><option>${displayTeamName(match.awayTeam)}胜</option>`;
       }
+    };
+
+    function getPredictionMatch(matchId) {
+      const data = window.PROTOTYPE_DATA || { matches: [] };
+      const direct = (data.matches || []).find((m) => String(m.id) === String(matchId || ""));
+      if (direct) return direct;
+      const selectedId = document.getElementById("challenge-match")?.value || "";
+      const selected = (data.matches || []).find((m) => m.id === selectedId);
+      if (selected) return selected;
+      return (data.matches || []).find((m) => m.status === "scheduled") || (data.matches || [])[0] || null;
+    }
+
+    function getPredictionFormUrl(match) {
+      const config = window.APP_CONFIG || {};
+      const mapped = match && config.predictionFormUrls && config.predictionFormUrls[match.id];
+      return ((mapped || config.predictionFormUrl || "") + "").trim();
+    }
+
+    function buildExternalPredictionUrl(match) {
+      const baseUrl = getPredictionFormUrl(match);
+      if (!baseUrl) return "";
+      const url = new URL(baseUrl);
+      const inviteCode = new URLSearchParams(window.location.search).get("room") || "";
+      const returnUrl = new URL(window.location.href);
+      returnUrl.searchParams.delete("room");
+      url.searchParams.set("source", "world-cup-h5");
+      url.searchParams.set("return_url", returnUrl.toString());
+      if (inviteCode) url.searchParams.set("invite_code", inviteCode);
+      if (match) {
+        url.searchParams.set("match_id", match.id || "");
+        url.searchParams.set("match", `${displayTeamName(match.homeTeam)} vs ${displayTeamName(match.awayTeam)}`);
+        url.searchParams.set("match_time", displayDate(match.dateText));
+      }
+      return url.toString();
+    }
+
+    window.startPredictionPk = function startPredictionPk(matchId) {
+      const match = getPredictionMatch(matchId);
+      const externalUrl = buildExternalPredictionUrl(match);
+      if (!externalUrl) {
+        showView("challengeCreate");
+        showToast("该场预测链接待配置，先进入原型预测页");
+        return;
+      }
+      window.location.href = externalUrl;
     };
 
     window.collectPredictionAnswers = function collectPredictionAnswers() {
