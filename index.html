@@ -809,9 +809,10 @@
     }
 
     .app-nav {
-      max-width: 520px;
-      left: 50%;
-      transform: translateX(-50%);
+      max-width: none;
+      left: 0;
+      right: 0;
+      transform: none;
       border-top: 1px solid rgba(255,255,255,.08);
       background: rgba(5,7,18,.88);
       box-shadow: 0 -18px 46px rgba(0,0,0,.22);
@@ -1135,6 +1136,168 @@
       border-radius: 22px !important;
       filter: saturate(1.05) contrast(1.05);
     }
+
+    .sr-only,
+    .prediction-form-fields {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      clip-path: inset(50%);
+    }
+
+    .prediction-topbar h1 {
+      font-size: clamp(32px, 8vw, 42px);
+      line-height: 1.08;
+    }
+
+    .prediction-match-card {
+      margin: 18px 0 22px;
+      padding: 22px;
+      border: 1px solid rgba(0,240,210,.3);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 18% 14%, rgba(0,240,210,.2), transparent 36%),
+        radial-gradient(circle at 100% 100%, rgba(255,47,143,.18), transparent 40%),
+        linear-gradient(145deg, rgba(13,30,62,.94), rgba(21,17,48,.96));
+      box-shadow: var(--shadow);
+    }
+
+    .prediction-match-card .match-tags {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .prediction-match-card .match-head {
+      margin: 8px 0 20px;
+      grid-template-columns: 1fr 72px 1fr;
+    }
+
+    .prediction-match-card .team {
+      flex-direction: column;
+      gap: 9px;
+      font-size: 20px;
+      line-height: 1.15;
+    }
+
+    .prediction-match-card .team-flag-emoji,
+    .prediction-match-card .team-flag-fallback {
+      width: 64px;
+      height: 64px;
+      font-size: 34px;
+      border-radius: 50%;
+    }
+
+    .prediction-match-card .team-flag {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .prediction-match-card .vs {
+      width: 68px;
+      height: 68px;
+      min-width: 68px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--brand);
+      color: #06111d;
+      box-shadow: 0 0 44px rgba(0,240,210,.28);
+    }
+
+    .prediction-match-card .meta {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .prediction-question {
+      margin: 14px 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.04)),
+        rgba(15,19,34,.86);
+      box-shadow: 0 14px 40px rgba(0,0,0,.18);
+    }
+
+    .prediction-question h3 {
+      margin-bottom: 14px;
+      font-size: 18px;
+    }
+
+    .prediction-options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .prediction-options.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .prediction-option {
+      min-height: 48px;
+      padding: 10px 8px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.075);
+      color: var(--text);
+      box-shadow: none;
+      font-size: 14px;
+      line-height: 1.18;
+      font-weight: 1000;
+    }
+
+    .prediction-option.active {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #06111d;
+      box-shadow: 0 14px 34px rgba(0,240,210,.2);
+    }
+
+    .prediction-room-preview {
+      margin: 18px 0;
+      padding: 18px;
+      border-radius: 24px;
+      background: #fff;
+      color: #07101d;
+    }
+
+    .prediction-room-preview h3 {
+      color: #07101d;
+      font-size: 18px;
+    }
+
+    .avatars {
+      display: flex;
+      margin-top: 16px;
+    }
+
+    .avatars .avatar {
+      width: 34px;
+      height: 34px;
+      margin-right: -7px;
+      border: 3px solid #fff;
+      background: var(--brand-2);
+      color: #fff;
+    }
+
+    .avatars .avatar:nth-child(even) {
+      background: #2478ff;
+    }
+
+    .avatars .avatar:last-child {
+      background: var(--brand);
+      color: #06111d;
+    }
   </style>
 </head>
 <body>
@@ -1359,17 +1522,27 @@
 
     <section class="view" id="challengeCreate">
       <button class="back" onclick="showView('home', true)">返回首页</button>
-      <header class="topbar"><p class="eyebrow">赛前立预测，赛中看排名</p><h1>发起预测PK</h1><p class="sub">至少2人成局。上半场即时结算，终场决出PK冠军。</p></header>
-      <div class="form-group"><label for="challenge-match">选择比赛</label><select class="form-control" id="challenge-match" onchange="syncPredictionMatch()"></select></div>
-      <div class="section-title"><h2>上半场预测</h2><small>最高30分</small></div>
-      <div class="form-group"><label for="half-result">上半场胜平负·+10</label><select class="form-control" id="half-result"><option>主队胜</option><option>平局</option><option>客队胜</option></select></div>
-      <div class="form-group"><label for="half-first-goal">上半场先进球队·+10</label><select class="form-control" id="half-first-goal"><option>主队</option><option>客队</option><option>无进球</option></select></div>
-      <div class="form-group"><label for="half-goals">上半场总进球区间·+10</label><select class="form-control" id="half-goals"><option>0-1球</option><option>2-3球</option><option>4球及以上</option></select></div>
-      <div class="section-title"><h2>全场预测</h2><small>最高40分</small></div>
-      <div class="form-group"><label for="prediction-result">全场胜平负·+10</label><select class="form-control" id="prediction-result"><option>主队胜</option><option>平局</option><option>客队胜</option></select></div>
-      <div class="form-group"><label for="full-goals">全场总进球区间·+10</label><select class="form-control" id="full-goals"><option>0-1球</option><option>2-3球</option><option>4球及以上</option></select></div>
-      <div class="form-group"><label for="match-red-card">全场是否出现红牌·+15</label><select class="form-control" id="match-red-card"><option>没有</option><option>有</option></select></div>
-      <div class="form-group"><label for="match-yellow-cards">全场黄牌数量·+15</label><select class="form-control" id="match-yellow-cards"><option>0-2张</option><option>3-5张</option><option>6张及以上</option></select><span class="form-hint">开赛前可修改，开赛后所有答案锁定。</span></div>
+      <header class="topbar prediction-topbar">
+        <p class="eyebrow">单场预测PK</p>
+        <h1 id="challenge-title">发起预测PK</h1>
+        <p class="sub">加入同一场PK房。提交后可继续邀请好友，人越多，赢家积分越高。</p>
+      </header>
+      <select class="form-control sr-only" id="challenge-match" onchange="syncPredictionMatch()"></select>
+      <section class="prediction-match-card" id="challenge-match-card"></section>
+      <div class="prediction-form-fields" aria-hidden="true">
+        <select class="form-control" id="half-result"><option>主队胜</option><option>平局</option><option>客队胜</option></select>
+        <select class="form-control" id="half-first-goal"><option>主队</option><option>客队</option><option>无进球</option></select>
+        <select class="form-control" id="half-goals"><option>0-1球</option><option>2-3球</option><option>4球及以上</option></select>
+        <select class="form-control" id="prediction-result"><option>主队胜</option><option>平局</option><option>客队胜</option></select>
+        <select class="form-control" id="full-goals"><option>0-1球</option><option>2-3球</option><option>4球及以上</option></select>
+        <select class="form-control" id="match-red-card"><option>没有</option><option>有</option></select>
+        <select class="form-control" id="match-yellow-cards"><option>0-2张</option><option>3-5张</option><option>6张及以上</option></select>
+      </div>
+      <section id="prediction-question-cards"></section>
+      <article class="prediction-room-preview">
+        <h3>本房已有 12 人加入</h3>
+        <div class="avatars"><span class="avatar">峰</span><span class="avatar">M</span><span class="avatar">凯</span><span class="avatar">林</span><span class="avatar">+8</span></div>
+      </article>
       <button id="create-prediction-button" style="width:100%" onclick="createPrediction(this)">保存预测并创建PK房</button>
     </section>
 
@@ -2207,14 +2380,70 @@
       const home = escapeHtml(displayTeamName(match.homeTeam));
       const away = escapeHtml(displayTeamName(match.awayTeam));
       const resultOptions = `<option>${home}胜</option><option>平局</option><option>${away}胜</option>`;
+      const halfResultOptions = `<option>${home}领先</option><option>平局</option><option>${away}领先</option>`;
       const firstGoalOptions = `<option>${home}</option><option>${away}</option><option>无进球</option>`;
       const halfResult = document.getElementById("half-result");
       const fullResult = document.getElementById("prediction-result");
       const halfFirstGoal = document.getElementById("half-first-goal");
-      if (halfResult) halfResult.innerHTML = resultOptions;
+      if (halfResult) halfResult.innerHTML = halfResultOptions;
       if (fullResult) fullResult.innerHTML = resultOptions;
       if (halfFirstGoal) halfFirstGoal.innerHTML = firstGoalOptions;
+      renderPredictionCreateView(match);
     };
+
+    function selectPredictionOption(selectId, value, btn) {
+      const select = document.getElementById(selectId);
+      if (!select) return;
+      select.value = value;
+      const group = btn.closest(".prediction-options");
+      if (group) {
+        group.querySelectorAll(".prediction-option").forEach((option) => {
+          option.classList.toggle("active", option === btn);
+        });
+      }
+    }
+
+    function renderPredictionQuestion(title, selectId, values) {
+      const currentValue = document.getElementById(selectId)?.value || values[0];
+      const cls = values.length === 2 ? "prediction-options two" : "prediction-options";
+      return `<article class="prediction-question">
+        <h3>${escapeHtml(title)}</h3>
+        <div class="${cls}">` +
+        values.map((value) => `<button class="prediction-option${value === currentValue ? " active" : ""}" onclick="selectPredictionOption('${selectId}', '${escapeHtml(value)}', this)">${escapeHtml(value)}</button>`).join("") +
+        `</div>
+      </article>`;
+    }
+
+    function renderPredictionCreateView(match) {
+      if (!match) return;
+      const home = displayTeamName(match.homeTeam);
+      const away = displayTeamName(match.awayTeam);
+      const title = document.getElementById("challenge-title");
+      if (title) title.textContent = `${home} VS ${away}`;
+
+      const matchCard = document.getElementById("challenge-match-card");
+      if (matchCard) {
+        matchCard.innerHTML = `<div class="match-tags"><span class="tag hot">今晚焦点</span><span class="tag">已开 236 个PK房</span></div>
+          <div class="match-head">
+            <span class="team">${displayTeamWithFlag(match.homeTeam)}</span>
+            <span class="vs">VS</span>
+            <span class="team">${displayTeamWithFlag(match.awayTeam)}</span>
+          </div>
+          <p class="meta">${escapeHtml(match.time || "待定")} 开球 · ${escapeHtml(match.venue || "")} · ${escapeHtml(displayStage(match))}</p>`;
+      }
+
+      const questions = document.getElementById("prediction-question-cards");
+      if (questions) {
+        questions.innerHTML =
+          renderPredictionQuestion("上半场结束时，谁领先？", "half-result", [home + "领先", "平局", away + "领先"]) +
+          renderPredictionQuestion("上半场谁先进球？", "half-first-goal", [home, away, "无进球"]) +
+          renderPredictionQuestion("上半场总进球区间", "half-goals", ["0-1球", "2-3球", "4球及以上"]) +
+          renderPredictionQuestion("全场胜负怎么走？", "prediction-result", [home + "胜", "平局", away + "胜"]) +
+          renderPredictionQuestion("全场总进球区间", "full-goals", ["0-1球", "2-3球", "4球及以上"]) +
+          renderPredictionQuestion("全场是否出现红牌？", "match-red-card", ["没有", "有"]) +
+          renderPredictionQuestion("全场黄牌数量", "match-yellow-cards", ["0-2张", "3-5张", "6张及以上"]);
+      }
+    }
 
     function getPredictionMatch(matchId) {
       const data = window.PROTOTYPE_DATA || { matches: [] };
