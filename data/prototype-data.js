@@ -1,5 +1,5 @@
 window.PROTOTYPE_DATA = {
-  "generatedAt": "2026-06-24T02:19:15.840Z",
+  "generatedAt": "2026-06-24T02:49:51.707Z",
   "teams": [
     {
       "id": "fifa-team-alg",
@@ -16008,7 +16008,6 @@ window.PROTOTYPE_DATA = {
       "group": "A",
       "rows": [
         {
-          "rank": 1,
           "team": "Mexico",
           "played": 2,
           "won": 2,
@@ -16017,11 +16016,11 @@ window.PROTOTYPE_DATA = {
           "goalsFor": 3,
           "goalsAgainst": 0,
           "goalDifference": 3,
-          "conductScore": -5,
-          "points": 6
+          "points": 6,
+          "rank": 1,
+          "conductScore": 0
         },
         {
-          "rank": 2,
           "team": "Korea Republic",
           "played": 2,
           "won": 1,
@@ -16030,11 +16029,11 @@ window.PROTOTYPE_DATA = {
           "goalsFor": 2,
           "goalsAgainst": 2,
           "goalDifference": 0,
-          "conductScore": -3,
-          "points": 3
+          "points": 3,
+          "rank": 2,
+          "conductScore": 0
         },
         {
-          "rank": 3,
           "team": "Czechia",
           "played": 2,
           "won": 0,
@@ -16043,11 +16042,11 @@ window.PROTOTYPE_DATA = {
           "goalsFor": 2,
           "goalsAgainst": 3,
           "goalDifference": -1,
-          "conductScore": -1,
-          "points": 1
+          "points": 1,
+          "rank": 3,
+          "conductScore": 0
         },
         {
-          "rank": 4,
           "team": "South Africa",
           "played": 2,
           "won": 0,
@@ -16056,8 +16055,9 @@ window.PROTOTYPE_DATA = {
           "goalsFor": 1,
           "goalsAgainst": 3,
           "goalDifference": -2,
-          "conductScore": -12,
-          "points": 1
+          "points": 1,
+          "rank": 4,
+          "conductScore": 0
         }
       ]
     },
@@ -16065,7 +16065,6 @@ window.PROTOTYPE_DATA = {
       "group": "B",
       "rows": [
         {
-          "rank": 1,
           "team": "Canada",
           "played": 2,
           "won": 1,
@@ -16074,11 +16073,11 @@ window.PROTOTYPE_DATA = {
           "goalsFor": 7,
           "goalsAgainst": 1,
           "goalDifference": 6,
-          "conductScore": -3,
-          "points": 4
+          "points": 4,
+          "rank": 1,
+          "conductScore": 0
         },
         {
-          "rank": 2,
           "team": "Switzerland",
           "played": 2,
           "won": 1,
@@ -16087,11 +16086,11 @@ window.PROTOTYPE_DATA = {
           "goalsFor": 5,
           "goalsAgainst": 2,
           "goalDifference": 3,
-          "conductScore": -2,
-          "points": 4
+          "points": 4,
+          "rank": 2,
+          "conductScore": 0
         },
         {
-          "rank": 3,
           "team": "Bosnia and Herzegovina",
           "played": 2,
           "won": 0,
@@ -16100,11 +16099,11 @@ window.PROTOTYPE_DATA = {
           "goalsFor": 2,
           "goalsAgainst": 5,
           "goalDifference": -3,
-          "conductScore": -9,
-          "points": 1
+          "points": 1,
+          "rank": 3,
+          "conductScore": 0
         },
         {
-          "rank": 4,
           "team": "Qatar",
           "played": 2,
           "won": 0,
@@ -16113,65 +16112,9 @@ window.PROTOTYPE_DATA = {
           "goalsFor": 1,
           "goalsAgainst": 7,
           "goalDifference": -6,
-          "conductScore": -11,
-          "points": 1
-        }
-      ]
-    },
-    {
-      "group": "C",
-      "rows": [
-        {
-          "rank": 1,
-          "team": "Scotland",
-          "played": 1,
-          "won": 1,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 0,
-          "goalDifference": 1,
-          "conductScore": -3,
-          "points": 3
-        },
-        {
-          "rank": 2,
-          "team": "Morocco",
-          "played": 1,
-          "won": 0,
-          "drawn": 1,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 1,
-          "goalDifference": 0,
-          "conductScore": 0,
-          "points": 1
-        },
-        {
-          "rank": 3,
-          "team": "Brazil",
-          "played": 1,
-          "won": 0,
-          "drawn": 1,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 1,
-          "goalDifference": 0,
-          "conductScore": -2,
-          "points": 1
-        },
-        {
+          "points": 1,
           "rank": 4,
-          "team": "Haiti",
-          "played": 1,
-          "won": 0,
-          "drawn": 0,
-          "lost": 1,
-          "goalsFor": 0,
-          "goalsAgainst": 1,
-          "goalDifference": -1,
-          "conductScore": -1,
-          "points": 0
+          "conductScore": 0
         }
       ]
     },
@@ -16179,56 +16122,113 @@ window.PROTOTYPE_DATA = {
       "group": "D",
       "rows": [
         {
-          "rank": 1,
           "team": "USA",
-          "played": 1,
+          "played": 2,
+          "won": 2,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 6,
+          "goalsAgainst": 1,
+          "goalDifference": 5,
+          "points": 6,
+          "rank": 1,
+          "conductScore": 0
+        },
+        {
+          "team": "Australia",
+          "played": 2,
           "won": 1,
           "drawn": 0,
+          "lost": 1,
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "goalDifference": 0,
+          "points": 3,
+          "rank": 2,
+          "conductScore": 0
+        },
+        {
+          "team": "Paraguay",
+          "played": 2,
+          "won": 1,
+          "drawn": 0,
+          "lost": 1,
+          "goalsFor": 2,
+          "goalsAgainst": 4,
+          "goalDifference": -2,
+          "points": 3,
+          "rank": 3,
+          "conductScore": 0
+        },
+        {
+          "team": "Türkiye",
+          "played": 2,
+          "won": 0,
+          "drawn": 0,
+          "lost": 2,
+          "goalsFor": 0,
+          "goalsAgainst": 3,
+          "goalDifference": -3,
+          "points": 0,
+          "rank": 4,
+          "conductScore": 0
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "rows": [
+        {
+          "team": "Brazil",
+          "played": 2,
+          "won": 1,
+          "drawn": 1,
           "lost": 0,
           "goalsFor": 4,
           "goalsAgainst": 1,
           "goalDifference": 3,
-          "conductScore": -1,
-          "points": 3
+          "points": 4,
+          "rank": 1,
+          "conductScore": 0
         },
         {
-          "rank": 2,
-          "team": "Australia",
-          "played": 1,
+          "team": "Morocco",
+          "played": 2,
           "won": 1,
-          "drawn": 0,
+          "drawn": 1,
           "lost": 0,
           "goalsFor": 2,
-          "goalsAgainst": 0,
-          "goalDifference": 2,
-          "conductScore": 0,
-          "points": 3
+          "goalsAgainst": 1,
+          "goalDifference": 1,
+          "points": 4,
+          "rank": 2,
+          "conductScore": 0
         },
         {
-          "rank": 3,
-          "team": "Türkiye",
-          "played": 1,
-          "won": 0,
-          "drawn": 0,
-          "lost": 1,
-          "goalsFor": 0,
-          "goalsAgainst": 2,
-          "goalDifference": -2,
-          "conductScore": -1,
-          "points": 0
-        },
-        {
-          "rank": 4,
-          "team": "Paraguay",
-          "played": 1,
-          "won": 0,
+          "team": "Scotland",
+          "played": 2,
+          "won": 1,
           "drawn": 0,
           "lost": 1,
           "goalsFor": 1,
+          "goalsAgainst": 1,
+          "goalDifference": 0,
+          "points": 3,
+          "rank": 3,
+          "conductScore": 0
+        },
+        {
+          "team": "Haiti",
+          "played": 2,
+          "won": 0,
+          "drawn": 0,
+          "lost": 2,
+          "goalsFor": 0,
           "goalsAgainst": 4,
-          "goalDifference": -3,
-          "conductScore": -5,
-          "points": 0
+          "goalDifference": -4,
+          "points": 0,
+          "rank": 4,
+          "conductScore": 0
         }
       ]
     },
@@ -16236,56 +16236,56 @@ window.PROTOTYPE_DATA = {
       "group": "E",
       "rows": [
         {
-          "rank": 1,
           "team": "Germany",
-          "played": 1,
-          "won": 1,
+          "played": 2,
+          "won": 2,
           "drawn": 0,
           "lost": 0,
-          "goalsFor": 7,
-          "goalsAgainst": 1,
-          "goalDifference": 6,
-          "conductScore": 0,
-          "points": 3
+          "goalsFor": 9,
+          "goalsAgainst": 2,
+          "goalDifference": 7,
+          "points": 6,
+          "rank": 1,
+          "conductScore": 0
         },
         {
-          "rank": 2,
           "team": "Côte d'Ivoire",
-          "played": 1,
+          "played": 2,
           "won": 1,
           "drawn": 0,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 0,
-          "goalDifference": 1,
-          "conductScore": -3,
-          "points": 3
+          "lost": 1,
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "goalDifference": 0,
+          "points": 3,
+          "rank": 2,
+          "conductScore": 0
         },
         {
-          "rank": 3,
           "team": "Ecuador",
-          "played": 1,
+          "played": 2,
           "won": 0,
-          "drawn": 0,
+          "drawn": 1,
           "lost": 1,
           "goalsFor": 0,
           "goalsAgainst": 1,
           "goalDifference": -1,
-          "conductScore": -1,
-          "points": 0
+          "points": 1,
+          "rank": 3,
+          "conductScore": 0
         },
         {
-          "rank": 4,
           "team": "Curaçao",
-          "played": 1,
+          "played": 2,
           "won": 0,
-          "drawn": 0,
+          "drawn": 1,
           "lost": 1,
           "goalsFor": 1,
           "goalsAgainst": 7,
           "goalDifference": -6,
-          "conductScore": 0,
-          "points": 0
+          "points": 1,
+          "rank": 4,
+          "conductScore": 0
         }
       ]
     },
@@ -16293,113 +16293,56 @@ window.PROTOTYPE_DATA = {
       "group": "F",
       "rows": [
         {
+          "team": "Netherlands",
+          "played": 2,
+          "won": 1,
+          "drawn": 1,
+          "lost": 0,
+          "goalsFor": 7,
+          "goalsAgainst": 3,
+          "goalDifference": 4,
+          "points": 4,
           "rank": 1,
+          "conductScore": 0
+        },
+        {
+          "team": "Japan",
+          "played": 2,
+          "won": 1,
+          "drawn": 1,
+          "lost": 0,
+          "goalsFor": 6,
+          "goalsAgainst": 2,
+          "goalDifference": 4,
+          "points": 4,
+          "rank": 2,
+          "conductScore": 0
+        },
+        {
           "team": "Sweden",
-          "played": 1,
+          "played": 2,
           "won": 1,
           "drawn": 0,
-          "lost": 0,
-          "goalsFor": 5,
-          "goalsAgainst": 1,
-          "goalDifference": 4,
-          "conductScore": 0,
-          "points": 3
-        },
-        {
-          "rank": 2,
-          "team": "Japan",
-          "played": 1,
-          "won": 0,
-          "drawn": 1,
-          "lost": 0,
-          "goalsFor": 2,
-          "goalsAgainst": 2,
+          "lost": 1,
+          "goalsFor": 6,
+          "goalsAgainst": 6,
           "goalDifference": 0,
-          "conductScore": 0,
-          "points": 1
-        },
-        {
+          "points": 3,
           "rank": 3,
-          "team": "Netherlands",
-          "played": 1,
-          "won": 0,
-          "drawn": 1,
-          "lost": 0,
-          "goalsFor": 2,
-          "goalsAgainst": 2,
-          "goalDifference": 0,
-          "conductScore": -3,
-          "points": 1
+          "conductScore": 0
         },
         {
-          "rank": 4,
           "team": "Tunisia",
-          "played": 1,
+          "played": 2,
           "won": 0,
           "drawn": 0,
-          "lost": 1,
+          "lost": 2,
           "goalsFor": 1,
-          "goalsAgainst": 5,
-          "goalDifference": -4,
-          "conductScore": -1,
-          "points": 0
-        }
-      ]
-    },
-    {
-      "group": "G",
-      "rows": [
-        {
-          "rank": 1,
-          "team": "New Zealand",
-          "played": 1,
-          "won": 0,
-          "drawn": 1,
-          "lost": 0,
-          "goalsFor": 2,
-          "goalsAgainst": 2,
-          "goalDifference": 0,
-          "conductScore": 0,
-          "points": 1
-        },
-        {
-          "rank": 2,
-          "team": "IR Iran",
-          "played": 1,
-          "won": 0,
-          "drawn": 1,
-          "lost": 0,
-          "goalsFor": 2,
-          "goalsAgainst": 2,
-          "goalDifference": 0,
-          "conductScore": -1,
-          "points": 1
-        },
-        {
-          "rank": 3,
-          "team": "Belgium",
-          "played": 1,
-          "won": 0,
-          "drawn": 1,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 1,
-          "goalDifference": 0,
-          "conductScore": -2,
-          "points": 1
-        },
-        {
+          "goalsAgainst": 9,
+          "goalDifference": -8,
+          "points": 0,
           "rank": 4,
-          "team": "Egypt",
-          "played": 1,
-          "won": 0,
-          "drawn": 1,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 1,
-          "goalDifference": 0,
-          "conductScore": -2,
-          "points": 1
+          "conductScore": 0
         }
       ]
     },
@@ -16407,56 +16350,113 @@ window.PROTOTYPE_DATA = {
       "group": "H",
       "rows": [
         {
-          "rank": 1,
-          "team": "Uruguay",
-          "played": 1,
-          "won": 0,
-          "drawn": 1,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 1,
-          "goalDifference": 0,
-          "conductScore": 0,
-          "points": 1
-        },
-        {
-          "rank": 2,
-          "team": "Saudi Arabia",
-          "played": 1,
-          "won": 0,
-          "drawn": 1,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 1,
-          "goalDifference": 0,
-          "conductScore": -1,
-          "points": 1
-        },
-        {
-          "rank": 3,
           "team": "Spain",
-          "played": 1,
-          "won": 0,
+          "played": 2,
+          "won": 1,
           "drawn": 1,
           "lost": 0,
-          "goalsFor": 0,
+          "goalsFor": 4,
           "goalsAgainst": 0,
-          "goalDifference": 0,
-          "conductScore": -1,
-          "points": 1
+          "goalDifference": 4,
+          "points": 4,
+          "rank": 1,
+          "conductScore": 0
         },
         {
-          "rank": 4,
+          "team": "Uruguay",
+          "played": 2,
+          "won": 0,
+          "drawn": 2,
+          "lost": 0,
+          "goalsFor": 3,
+          "goalsAgainst": 3,
+          "goalDifference": 0,
+          "points": 2,
+          "rank": 2,
+          "conductScore": 0
+        },
+        {
           "team": "Cabo Verde",
-          "played": 1,
+          "played": 2,
+          "won": 0,
+          "drawn": 2,
+          "lost": 0,
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "goalDifference": 0,
+          "points": 2,
+          "rank": 3,
+          "conductScore": 0
+        },
+        {
+          "team": "Saudi Arabia",
+          "played": 2,
           "won": 0,
           "drawn": 1,
+          "lost": 1,
+          "goalsFor": 1,
+          "goalsAgainst": 5,
+          "goalDifference": -4,
+          "points": 1,
+          "rank": 4,
+          "conductScore": 0
+        }
+      ]
+    },
+    {
+      "group": "G",
+      "rows": [
+        {
+          "team": "Egypt",
+          "played": 2,
+          "won": 1,
+          "drawn": 1,
           "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
+          "goalsFor": 4,
+          "goalsAgainst": 2,
+          "goalDifference": 2,
+          "points": 4,
+          "rank": 1,
+          "conductScore": 0
+        },
+        {
+          "team": "IR Iran",
+          "played": 2,
+          "won": 0,
+          "drawn": 2,
+          "lost": 0,
+          "goalsFor": 2,
+          "goalsAgainst": 2,
           "goalDifference": 0,
-          "conductScore": -1,
-          "points": 1
+          "points": 2,
+          "rank": 2,
+          "conductScore": 0
+        },
+        {
+          "team": "Belgium",
+          "played": 2,
+          "won": 0,
+          "drawn": 2,
+          "lost": 0,
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "goalDifference": 0,
+          "points": 2,
+          "rank": 3,
+          "conductScore": 0
+        },
+        {
+          "team": "New Zealand",
+          "played": 2,
+          "won": 0,
+          "drawn": 1,
+          "lost": 1,
+          "goalsFor": 3,
+          "goalsAgainst": 5,
+          "goalDifference": -2,
+          "points": 1,
+          "rank": 4,
+          "conductScore": 0
         }
       ]
     },
@@ -16464,56 +16464,56 @@ window.PROTOTYPE_DATA = {
       "group": "I",
       "rows": [
         {
-          "rank": 1,
-          "team": "Norway",
-          "played": 1,
-          "won": 1,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 4,
-          "goalsAgainst": 1,
-          "goalDifference": 3,
-          "conductScore": 0,
-          "points": 3
-        },
-        {
-          "rank": 2,
           "team": "France",
-          "played": 1,
-          "won": 1,
+          "played": 2,
+          "won": 2,
           "drawn": 0,
           "lost": 0,
-          "goalsFor": 3,
+          "goalsFor": 6,
           "goalsAgainst": 1,
-          "goalDifference": 2,
-          "conductScore": 0,
-          "points": 3
+          "goalDifference": 5,
+          "points": 6,
+          "rank": 1,
+          "conductScore": 0
         },
         {
-          "rank": 3,
-          "team": "Senegal",
-          "played": 1,
-          "won": 0,
+          "team": "Norway",
+          "played": 2,
+          "won": 2,
           "drawn": 0,
-          "lost": 1,
-          "goalsFor": 1,
+          "lost": 0,
+          "goalsFor": 7,
           "goalsAgainst": 3,
-          "goalDifference": -2,
-          "conductScore": 0,
-          "points": 0
+          "goalDifference": 4,
+          "points": 6,
+          "rank": 2,
+          "conductScore": 0
         },
         {
-          "rank": 4,
-          "team": "Iraq",
-          "played": 1,
+          "team": "Senegal",
+          "played": 2,
           "won": 0,
           "drawn": 0,
-          "lost": 1,
-          "goalsFor": 1,
-          "goalsAgainst": 4,
+          "lost": 2,
+          "goalsFor": 3,
+          "goalsAgainst": 6,
           "goalDifference": -3,
-          "conductScore": -1,
-          "points": 0
+          "points": 0,
+          "rank": 3,
+          "conductScore": 0
+        },
+        {
+          "team": "Iraq",
+          "played": 2,
+          "won": 0,
+          "drawn": 0,
+          "lost": 2,
+          "goalsFor": 1,
+          "goalsAgainst": 7,
+          "goalDifference": -6,
+          "points": 0,
+          "rank": 4,
+          "conductScore": 0
         }
       ]
     },
@@ -16521,56 +16521,56 @@ window.PROTOTYPE_DATA = {
       "group": "J",
       "rows": [
         {
-          "rank": 1,
           "team": "Argentina",
-          "played": 1,
-          "won": 1,
+          "played": 2,
+          "won": 2,
           "drawn": 0,
           "lost": 0,
-          "goalsFor": 3,
+          "goalsFor": 5,
           "goalsAgainst": 0,
-          "goalDifference": 3,
-          "conductScore": 0,
-          "points": 3
+          "goalDifference": 5,
+          "points": 6,
+          "rank": 1,
+          "conductScore": 0
         },
         {
-          "rank": 2,
           "team": "Austria",
-          "played": 1,
+          "played": 2,
           "won": 1,
           "drawn": 0,
-          "lost": 0,
+          "lost": 1,
           "goalsFor": 3,
-          "goalsAgainst": 1,
-          "goalDifference": 2,
-          "conductScore": -1,
-          "points": 3
-        },
-        {
-          "rank": 3,
-          "team": "Jordan",
-          "played": 1,
-          "won": 0,
-          "drawn": 0,
-          "lost": 1,
-          "goalsFor": 1,
           "goalsAgainst": 3,
-          "goalDifference": -2,
-          "conductScore": 0,
-          "points": 0
+          "goalDifference": 0,
+          "points": 3,
+          "rank": 2,
+          "conductScore": 0
         },
         {
-          "rank": 4,
           "team": "Algeria",
-          "played": 1,
-          "won": 0,
+          "played": 2,
+          "won": 1,
           "drawn": 0,
           "lost": 1,
-          "goalsFor": 0,
-          "goalsAgainst": 3,
+          "goalsFor": 2,
+          "goalsAgainst": 4,
+          "goalDifference": -2,
+          "points": 3,
+          "rank": 3,
+          "conductScore": 0
+        },
+        {
+          "team": "Jordan",
+          "played": 2,
+          "won": 0,
+          "drawn": 0,
+          "lost": 2,
+          "goalsFor": 2,
+          "goalsAgainst": 5,
           "goalDifference": -3,
-          "conductScore": 0,
-          "points": 0
+          "points": 0,
+          "rank": 4,
+          "conductScore": 0
         }
       ]
     },
@@ -16578,56 +16578,56 @@ window.PROTOTYPE_DATA = {
       "group": "K",
       "rows": [
         {
-          "rank": 1,
-          "team": "Colombia",
-          "played": 1,
+          "team": "Portugal",
+          "played": 2,
           "won": 1,
-          "drawn": 0,
+          "drawn": 1,
+          "lost": 0,
+          "goalsFor": 6,
+          "goalsAgainst": 1,
+          "goalDifference": 5,
+          "points": 4,
+          "rank": 1,
+          "conductScore": 0
+        },
+        {
+          "team": "Colombia",
+          "played": 2,
+          "won": 1,
+          "drawn": 1,
           "lost": 0,
           "goalsFor": 3,
           "goalsAgainst": 1,
           "goalDifference": 2,
-          "conductScore": -1,
-          "points": 3
-        },
-        {
+          "points": 4,
           "rank": 2,
+          "conductScore": 0
+        },
+        {
           "team": "Congo DR",
-          "played": 1,
+          "played": 2,
           "won": 0,
-          "drawn": 1,
+          "drawn": 2,
           "lost": 0,
           "goalsFor": 1,
           "goalsAgainst": 1,
           "goalDifference": 0,
-          "conductScore": -1,
-          "points": 1
-        },
-        {
+          "points": 2,
           "rank": 3,
-          "team": "Portugal",
-          "played": 1,
-          "won": 0,
-          "drawn": 1,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 1,
-          "goalDifference": 0,
-          "conductScore": -3,
-          "points": 1
+          "conductScore": 0
         },
         {
-          "rank": 4,
           "team": "Uzbekistan",
-          "played": 1,
+          "played": 2,
           "won": 0,
           "drawn": 0,
-          "lost": 1,
+          "lost": 2,
           "goalsFor": 1,
-          "goalsAgainst": 3,
-          "goalDifference": -2,
-          "conductScore": -1,
-          "points": 0
+          "goalsAgainst": 8,
+          "goalDifference": -7,
+          "points": 0,
+          "rank": 4,
+          "conductScore": 0
         }
       ]
     },
@@ -16635,56 +16635,56 @@ window.PROTOTYPE_DATA = {
       "group": "L",
       "rows": [
         {
-          "rank": 1,
           "team": "England",
-          "played": 1,
+          "played": 2,
           "won": 1,
-          "drawn": 0,
+          "drawn": 1,
           "lost": 0,
           "goalsFor": 4,
           "goalsAgainst": 2,
           "goalDifference": 2,
-          "conductScore": 0,
-          "points": 3
+          "points": 4,
+          "rank": 1,
+          "conductScore": 0
         },
         {
-          "rank": 2,
           "team": "Ghana",
-          "played": 1,
+          "played": 2,
           "won": 1,
-          "drawn": 0,
+          "drawn": 1,
           "lost": 0,
           "goalsFor": 1,
           "goalsAgainst": 0,
           "goalDifference": 1,
-          "conductScore": -1,
-          "points": 3
+          "points": 4,
+          "rank": 2,
+          "conductScore": 0
         },
         {
-          "rank": 3,
-          "team": "Panama",
-          "played": 1,
-          "won": 0,
-          "drawn": 0,
-          "lost": 1,
-          "goalsFor": 0,
-          "goalsAgainst": 1,
-          "goalDifference": -1,
-          "conductScore": -2,
-          "points": 0
-        },
-        {
-          "rank": 4,
           "team": "Croatia",
-          "played": 1,
-          "won": 0,
+          "played": 2,
+          "won": 1,
           "drawn": 0,
           "lost": 1,
-          "goalsFor": 2,
+          "goalsFor": 3,
           "goalsAgainst": 4,
+          "goalDifference": -1,
+          "points": 3,
+          "rank": 3,
+          "conductScore": 0
+        },
+        {
+          "team": "Panama",
+          "played": 2,
+          "won": 0,
+          "drawn": 0,
+          "lost": 2,
+          "goalsFor": 0,
+          "goalsAgainst": 2,
           "goalDifference": -2,
-          "conductScore": 0,
-          "points": 0
+          "points": 0,
+          "rank": 4,
+          "conductScore": 0
         }
       ]
     }
@@ -16804,14 +16804,14 @@ window.PROTOTYPE_DATA = {
     ]
   },
   "tournamentStats": {
-    "completedMatches": 32,
-    "totalGoals": 96,
-    "goalsPerMatch": 3,
-    "draws": 10,
-    "cleanSheets": 14,
+    "completedMatches": 48,
+    "totalGoals": 140,
+    "goalsPerMatch": 2.9,
+    "draws": 15,
+    "cleanSheets": 23,
     "topScoringTeam": {
-      "team": "Canada",
-      "goals": 7
+      "team": "Germany",
+      "goals": 9
     },
     "biggestWin": {
       "homeTeam": "Germany",
