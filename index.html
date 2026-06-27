@@ -8,20 +8,20 @@
   <title>今晚预测一下？猜中就生成你的世界杯高光海报</title>
   <meta name="description" content="预测胜负、比分、谁先进球，猜中就生成你的世界杯高光海报，和朋友一起冲预测排行榜。">
   <meta name="theme-color" content="#06111d">
-  <link rel="image_src" href="https://worldcup2026-d7gfmdarw394a4109-1312940160.tcloudbaseapp.com/assets/share-card.png">
-  <meta property="og:title" content="今晚预测一下？猜中就生成你的世界杯高光海报">
-  <meta property="og:description" content="预测胜负、比分、谁先进球，和朋友一起冲世界杯预测排行榜。">
-  <meta property="og:image" content="https://worldcup2026-d7gfmdarw394a4109-1312940160.tcloudbaseapp.com/assets/share-card.png">
-  <meta property="og:image:secure_url" content="https://worldcup2026-d7gfmdarw394a4109-1312940160.tcloudbaseapp.com/assets/share-card.png">
-  <meta property="og:image:width" content="1672">
-  <meta property="og:image:height" content="941">
+  <link rel="image_src" href="https://worldcup2026-d7gfmdarw394a4109-1312940160.tcloudbaseapp.com/assets/share-thumb.png">
+  <meta property="og:title" content="2026世界杯观赛指南 · 实时赛果赛程">
+  <meta property="og:description" content="查看最新赛果、完整赛程、积分榜和球队数据，和朋友一起预测。">
+  <meta property="og:image" content="https://worldcup2026-d7gfmdarw394a4109-1312940160.tcloudbaseapp.com/assets/share-thumb.png">
+  <meta property="og:image:secure_url" content="https://worldcup2026-d7gfmdarw394a4109-1312940160.tcloudbaseapp.com/assets/share-thumb.png">
+  <meta property="og:image:width" content="600">
+  <meta property="og:image:height" content="600">
   <meta property="og:url" content="https://worldcup2026-d7gfmdarw394a4109-1312940160.tcloudbaseapp.com">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="世界杯观赛指南">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="今晚预测一下？猜中就生成你的世界杯高光海报">
   <meta name="twitter:description" content="预测胜负、比分、谁先进球，和朋友一起冲世界杯预测排行榜。">
-  <meta name="twitter:image" content="https://worldcup2026-d7gfmdarw394a4109-1312940160.tcloudbaseapp.com/assets/share-card.png">
+  <meta name="twitter:image" content="https://worldcup2026-d7gfmdarw394a4109-1312940160.tcloudbaseapp.com/assets/share-thumb.png">
   <style>
     :root {
       --bg: #eef2f4;
@@ -1688,9 +1688,10 @@
     </div>
   </div>
   <div id="share-poster-modal" style="display:none;position:fixed;inset:0;z-index:902;background:rgba(0,0,0,0.88);flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;box-sizing:border-box;" onclick="closeSharePosterModal(event)">
-    <p style="color:rgba(255,255,255,0.88);margin:0;font-size:14px;font-weight:600;">长按图片保存到相册，发给微信好友</p>
+    <p style="color:rgba(255,255,255,0.88);margin:0;font-size:14px;font-weight:600;">长按图片 → 保存到相册 → 发给好友</p>
     <div onclick="event.stopPropagation()" style="width:min(320px,88vw);">
-      <canvas id="share-poster-canvas" style="width:100%;border-radius:14px;display:block;box-shadow:0 20px 60px rgba(0,0,0,0.5);"></canvas>
+      <canvas id="share-poster-canvas" style="display:none;"></canvas>
+      <img id="share-poster-img" alt="世界杯分享海报" style="width:100%;border-radius:14px;display:block;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
     </div>
     <p id="share-poster-hint" style="color:rgba(255,255,255,0.55);margin:0;font-size:12px;text-align:center;">生成中…</p>
     <div style="display:flex;gap:10px;width:min(320px,88vw);">
@@ -2666,11 +2667,16 @@
       if (!modal) return;
       modal.style.display = 'flex';
       const hint = document.getElementById('share-poster-hint');
-      if (hint) hint.textContent = '生成中…';
+      const img = document.getElementById('share-poster-img');
       const canvas = document.getElementById('share-poster-canvas');
+      if (hint) hint.textContent = '生成中…';
+      if (img) img.src = '';
       if (canvas) {
         _drawSharePoster(canvas)
-          .then(() => { if (hint) hint.textContent = '↑ 长按图片保存到相册，然后发给好友'; })
+          .then(() => {
+            if (img) img.src = canvas.toDataURL('image/png');
+            if (hint) hint.textContent = '↑ 长按图片 → 保存到相册';
+          })
           .catch(() => { if (hint) hint.textContent = '生成失败，请点"复制链接"分享'; });
       }
     };
