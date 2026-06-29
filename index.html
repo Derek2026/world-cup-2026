@@ -2383,15 +2383,32 @@
     let _heatRadius = 5;
     let _geoWatchId = null;
 
-    const PLACE_NAMES = [
-      "万达广场", "太古里", "万象城", "大悦城", "龙湖天街",
-      "体育公园", "大学城", "软件园", "CBD", "酒吧街",
-      "工人体育馆", "奥体中心", "电竞馆", "购物公园", "文化广场"
-    ];
+    function _getCityPlaceNames(lat, lng) {
+      const cities = [
+        { latMin:39.4, latMax:41.1, lngMin:115.7, lngMax:117.4, places:['三里屯','国贸','中关村','望京','西单','朝阳公园','五道口','798艺术区','什刹海','金融街','东直门','回龙观'] },
+        { latMin:30.7, latMax:31.9, lngMin:121.0, lngMax:122.1, places:['陆家嘴','南京路','静安寺','淮海路','徐家汇','外滩','虹桥','新天地','杨浦滨江','张江','五角场','长宁区'] },
+        { latMin:22.6, latMax:23.9, lngMin:112.9, lngMax:114.1, places:['天河城','珠江新城','北京路','花城广场','荔湾','海珠广场','越秀区','番禺万达','猎德','东山口','芳村','黄埔'] },
+        { latMin:22.4, latMax:22.85,lngMin:113.7, lngMax:114.6, places:['南山科技园','福田中心区','华强北','海岸城','欢乐海岸','宝安中心','龙华万象城','罗湖','光明','坪山','龙岗','盐田'] },
+        { latMin:30.0, latMax:31.4, lngMin:103.5, lngMax:104.9, places:['春熙路','太古里','天府广场','东郊记忆','锦里','武侯祠','IFS','世纪城','双流','金牛区','龙泉驿','高新区'] },
+        { latMin:29.9, latMax:31.4, lngMin:113.7, lngMax:115.1, places:['汉街','武汉天地','光谷广场','武昌区','积玉桥','黄埔永旺','梨园','江汉区','硚口','汉阳区','东湖','洪山区'] },
+        { latMin:29.2, latMax:30.6, lngMin:119.0, lngMax:120.8, places:['西湖','武林广场','钱江新城','滨江区','西溪','萧山','余杭','嘉里中心','龙湖','下城区','拱墅区','富阳'] },
+        { latMin:33.4, latMax:34.8, lngMin:107.4, lngMax:109.5, places:['回民街','钟鼓楼','高新区','曲江','大雁塔','长安区','未央区','浐灞','经开区','碑林区','莲湖区','灞桥'] },
+        { latMin:28.2, latMax:31.9, lngMin:105.2, lngMax:110.2, places:['解放碑','观音桥','江北嘴','渝中区','沙坪坝','渝北','九龙坡','弹子石','南岸区','大渡口','巴南区','永川'] },
+        { latMin:31.2, latMax:32.6, lngMin:118.1, lngMax:119.6, places:['新街口','河西','夫子庙','玄武湖','仙林','江宁万达','南京南站','雨花台','鼓楼区','栖霞区','浦口区','秦淮区'] },
+        { latMin:38.5, latMax:40.2, lngMin:116.7, lngMax:118.1, places:['滨海新区','和平区','河西区','南开区','西青区','武清区','静海区','北辰区','大港','汉沽','塘沽','津南区'] },
+        { latMin:30.8, latMax:32.2, lngMin:119.7, lngMax:121.3, places:['苏州园区','姑苏区','昆山','吴江','太仓','常熟','金鸡湖','独墅湖','高新区','相城区','吴中区','平江路'] },
+        { latMin:23.0, latMax:23.6, lngMin:113.0, lngMax:113.7, places:['佛山禅城','顺德','南海','三水','高明','大沥','狮山','容桂','北滘','乐从','澜石','桂城'] },
+        { latMin:29.4, latMax:30.2, lngMin:115.8, lngMax:116.7, places:['九江市区','浔阳区','濂溪区','柴桑区','共青城','湖口','都昌','星子','德安','瑞昌','武宁','修水'] },
+      ];
+      for (const c of cities) {
+        if (lat >= c.latMin && lat <= c.latMax && lng >= c.lngMin && lng <= c.lngMax) return c.places;
+      }
+      return ['万达广场','万象城','大悦城','龙湖天街','体育公园','大学城','奥体中心','购物公园','文化广场','商业街','步行街','滨江公园','城市广场','科技园','创意园区'];
+    }
 
     function _randomSpots(centerLat, centerLng, radiusKm, count) {
       const spots = [];
-      const names = [...PLACE_NAMES].sort(() => Math.random() - 0.5);
+      const names = [..._getCityPlaceNames(centerLat, centerLng)].sort(() => Math.random() - 0.5);
       for (let i = 0; i < count; i++) {
         const angle = Math.random() * 2 * Math.PI;
         const distKm = radiusKm * Math.sqrt(Math.random());
