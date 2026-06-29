@@ -1702,7 +1702,7 @@
 
   <script src="./js/app-config.js?v=20260625-2"></script>
   <script src="./js/prediction-service.js?v=20260625-7"></script>
-  <script src="./data/prototype-data.js?v=20260625-3"></script>
+  <script src="./data/prototype-data.js?v=20260629-1"></script>
   <script>
     const views = Array.from(document.querySelectorAll(".view"));
     const tabs = Array.from(document.querySelectorAll(".tab"));
@@ -2400,6 +2400,7 @@
         { latMin:23.0, latMax:23.6, lngMin:113.0, lngMax:113.7, places:['佛山禅城','顺德','南海','三水','高明','大沥','狮山','容桂','北滘','乐从','澜石','桂城'] },
         { latMin:29.4, latMax:30.2, lngMin:115.8, lngMax:116.7, places:['九江市区','浔阳区','濂溪区','柴桑区','共青城','湖口','都昌','星子','德安','瑞昌','武宁','修水'] },
         { latMin:21.8, latMax:22.4, lngMin:113.0, lngMax:114.0, places:['拱北','香洲区','横琴','唐家湾','斗门','金湾','情侣路','格力广场','华发商都','九洲港','珠海渔女','柠溪'] },
+        { latMin:40.5, latMax:41.2, lngMin:111.4, lngMax:112.1, places:['赛罕区','回民区','新城区','玉泉区','大召寺','内蒙古大学','塞上老街','昭君路','中山路','金桥开发区','维多利亚','如意开发区'] },
       ];
       for (const c of cities) {
         if (lat >= c.latMin && lat <= c.latMax && lng >= c.lngMin && lng <= c.lngMax) return c.places;
