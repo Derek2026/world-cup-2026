@@ -1,5 +1,5 @@
 window.PROTOTYPE_DATA = {
-  "generatedAt": "2026-06-28T03:48:59.464Z",
+  "generatedAt": "2026-06-29T01:35:46.712Z",
   "teams": [
     {
       "id": "fifa-team-alg",
@@ -15262,11 +15262,11 @@ window.PROTOTYPE_DATA = {
       "sourceUrl": "https://www.fifa.com/en/match-centre/match/17/285023/289287/400021518",
       "dateText": "Monday 29 June 2026",
       "time": "03:00",
-      "status": "scheduled",
+      "status": "completed",
       "homeTeam": "2A",
       "awayTeam": "2B",
-      "homeScore": null,
-      "awayScore": null,
+      "homeScore": 0,
+      "awayScore": 1,
       "stage": "Round of 32",
       "group": "",
       "venue": "Los Angeles Stadium",
